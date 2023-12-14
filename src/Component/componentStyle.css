@@ -1,0 +1,35 @@
+/* // navbar styles  */
+
+.navbar {
+  background-color: transparent;
+  height: max-content;
+  padding: 20px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.title-holder {
+  font-size: 25px;
+  font-weight: 900;
+  color: white;
+}
+.navbar ul {
+  display: flex;
+}
+.navbar ul li {
+  text-decoration: none;
+  list-style-type: none;
+  margin: 0px 35px;
+}
+.navbar ul li a {
+  color: white;
+  font-size: 20px;
+  font-weight: 900;
+}
+.navbar ul li:hover{
+    transition: all ease 0.4s;
+    transform: scale3d(1.2, 1.2, 50);
+}
+.navbar ul li a:hover{
+    color: crimson;
+}
