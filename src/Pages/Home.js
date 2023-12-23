@@ -60,7 +60,7 @@ function Home() {
       </div>
       <div className="whyTM-container">
         <div className="imageholder" style={{ transform: " rotate(-30deg)" }}>
-          <img src={whyTM}></img>
+          <img src={whyTM} alt="whyTMImage"></img>
         </div>
         <div className="first-child">
           <h2>Why TaskMaster ?</h2>
