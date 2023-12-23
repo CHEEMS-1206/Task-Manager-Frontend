@@ -1,4 +1,5 @@
 import { Route, Routes, BrowserRouter, Navigate } from "react-router-dom";
+import Register from "./Pages/Regsiter.js";
 
 import Home from "./Pages/Home.js";
 import Login from "./Pages/Login.js";
@@ -19,7 +20,7 @@ function App() {
         />
         <Route
           path="/register"
-          element={isLoggedIn ? <Home /> : <div>Register</div>}
+          element={isLoggedIn ? <Home /> : <Register/>}
         />
         <Route
           path="/my-tasks"
