@@ -30,7 +30,6 @@ function App({handleLogin}) {
           <Route path="/" element={<Home />} />
           <Route path="/logout" element={<div>LOGOUT</div>} />
           <Route path="/login" element={<Navigate to="/" />} />
-          <Route path="/register" element={<Register />} />
           <Route path="/my-tasks" element={<div>My tasks</div>} />
           <Route path="/add-new-task" element={<div>Add New Task</div>} />
           <Route path="/update-task" element={<div>Update task</div>} />
@@ -40,7 +39,7 @@ function App({handleLogin}) {
             element={<div>My tasks analytics</div>}
           />
           <Route path="/my-task:id" element={<div>Task by id</div>} />
-          <Route path="*" element={<Home />} />
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       ) : (
         <Routes>
