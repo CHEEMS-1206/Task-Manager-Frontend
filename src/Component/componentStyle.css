@@ -1,7 +1,7 @@
 /* // navbar styles  */
 
 .navbar {
-  background-color: transparent;
+  background-color: #00308F;
   height: max-content;
   padding: 20px 30px;
   display: flex;
@@ -29,7 +29,4 @@
 .navbar ul li:hover{
     transition: all ease 0.4s;
     transform: scale3d(1.2, 1.2, 50);
-}
-.navbar ul li a:hover{
-    color: crimson;
 }
