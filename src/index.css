@@ -90,3 +90,90 @@ h3 {
   width: 100%;
   transform: rotate(10deg);
 }
+
+/* 2. Login Page  */
+.login-page {
+  background-color: aliceblue;
+  background-position: center center;
+  background-size: 100% 100%;
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  width: 100vw;
+}
+.login-page .form-container {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+}
+.login-page .form-container #company-name {
+  /* background-color: aqua; */
+  padding: 20px;
+  cursor: pointer;
+  font-size: 25px;
+  font-weight: 900;
+  margin-bottom: 10%;
+}
+.login-page .form-container #login-desc,
+.login-page .reg-btn-container #login-page-reg-header {
+  color: black;
+  font-weight: 600;
+  font-size: 40px;
+  margin-bottom: 0%;
+  text-align: center;
+}
+.login-page .form-container form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  padding: 0 0 10% 0;
+  width: 60%;
+  /* background-color: blue; */
+}
+.login-page .form-container form .text-fields {
+  background-color: aliceblue;
+  margin-bottom: 25px;
+  border-radius: 30px;
+  width: 80%;
+}
+.login-page .form-container form .text-fields input {
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+}
+.login-page .form-container form #login-btn,
+.login-page .reg-btn-container #reg-redirect-btn {
+  background-color: #00308f;
+  font-size: 16px;
+  padding: 10px 100px;
+  border-radius: 30px;
+  margin-top: 5%;
+  width: max-content;
+}
+.login-page .reg-btn-container #reg-redirect-btn {
+  background-color: aliceblue;
+  color: black;
+}
+
+.login-page .reg-btn-container {
+  height: 100%;
+  background-color: #00308f;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+}
+.login-page .reg-btn-container #login-page-reg-desc {
+  margin: 5% 0%;
+  color: #eff7f3;
+  text-align: center;
+  width: 70%;
+  color: #eff7f3;
+  font-weight: 600;
+  font-size: 16px;
+}
+.login-page .reg-btn-container #login-page-reg-header {
+  color: #eff7f3;
+}
