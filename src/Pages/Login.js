@@ -3,7 +3,7 @@ import { Typography, TextField, Button } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Login = ({onLogin}) => {
   const moveTo = useNavigate();
 
   const [username, setUsername] = React.useState("");
@@ -42,6 +42,7 @@ const Login = () => {
         // Save the token and user details in local storage for further use
         localStorage.setItem("token", token);
         localStorage.setItem("username", username);
+        onLogin();
         moveTo("/");
       } else {
         alert("Failed to log in.");

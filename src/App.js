@@ -5,14 +5,21 @@ import Register from "./Pages/Regsiter.js";
 import Home from "./Pages/Home.js";
 import Login from "./Pages/Login.js";
 
-function App() {
-  if (!localStorage.getItem("token")) {
-    localStorage.setItem("token", "");
-  }
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+function AppWrapper() {
+  const [key, setKey] = useState(0); // State to control the key of App component
+
+  const handleLogin = () => {
+    setKey((prevKey) => prevKey + 1); // Increment key to trigger a re-render
+  };
+
+  return <App key={key} handleLogin={handleLogin} />;
+}
+
+function App({handleLogin}) {
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
+
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsLoggedIn(!!token);
+    setIsLoggedIn(!!localStorage.getItem("token"));
   }, [localStorage.getItem("token")]);
 
   console.log(isLoggedIn);
@@ -22,7 +29,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/logout" element={<div>LOGOUT</div>} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Navigate to="/" />} />
           <Route path="/register" element={<Register />} />
           <Route path="/my-tasks" element={<div>My tasks</div>} />
           <Route path="/add-new-task" element={<div>Add New Task</div>} />
@@ -39,7 +46,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       )}
@@ -47,4 +54,4 @@ function App() {
   );
 }
 
-export default App;
+export default AppWrapper;
