@@ -1,4 +1,4 @@
-*{
+* {
   background-color: transparent;
   box-sizing: border-box;
   border: none;
@@ -6,4 +6,87 @@
   text-decoration: none;
   padding: 0;
   margin: 0;
+}
+#root {
+  height: max-content;
+  width: 100vw;
+  overflow: auto;
+}
+
+/* // Pages styles //  */
+
+/* 1. Home page  */
+.home-container {
+  height: 100vh;
+  width: 100%;
+  /* background-image: url('./Assets/bg-image-home.jpg'); */
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-attachment: fixed;
+}
+.home-container .header-container {
+  height: max-content;
+  width: 100%;
+  padding: 250px 10%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  /* background-image: url('./Assets/header-container-bg.jpg'); */
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center top;
+}
+.home-container .header-container h1 {
+  font-size: 70px;
+  font-weight: 900;
+  color: #00308f;
+}
+.home-container .header-container p {
+  font-size: 25px;
+  margin-left: 10%;
+  text-align: justify;
+  color: #00308f;
+}
+.home-container .features-container,
+.home-container .whyTM-container {
+  height: max-content;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 50px 7%;
+  /* background-color: #00308F; */
+}
+h2 {
+  font-size: 40px;
+  padding: 10px 20px;
+  background-color: #00308f;
+  color: white;
+  margin-bottom: 35px;
+}
+h3 {
+  padding-left: 50px;
+  font-size: 30px;
+}
+
+.home-container .features-container p ,
+.home-container .whyTM-container p{
+  font-size: 20px;
+  margin: 15px 0 30px 0;
+  padding-left: 100px;
+}
+
+.home-container .features-container .first-child {
+  width: 58%;
+  height: 100%;
+}
+.home-container .imageholder {
+  height: 100%;
+  width: 38%;
+}
+.home-container .imageholder img {
+  height: 100%;
+  width: 100%;
+  transform: rotate(10deg);
 }
