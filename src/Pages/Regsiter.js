@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 const Register = () => {
   const moveTo = useNavigate();
 
-  const [username, setUsername] = React.useState("");
+  const [userName, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
   const [email, setEmail] = React.useState("");
@@ -16,8 +16,8 @@ const Register = () => {
 
   const registerHandler = async (e) => {
     e.preventDefault();
-    // Validate username
-    if (!isAlphanumeric(username) || username.length < 5) {
+    // Validate userName
+    if (!isAlphanumeric(userName) || userName.length < 5) {
       alert(
         "Username must be alphanumeric and at least 5 characters long."
       );
@@ -42,7 +42,7 @@ const Register = () => {
     }
 
     const formData = {
-      username,
+      userName,
       email,
       password,
     };
@@ -107,10 +107,10 @@ const Register = () => {
         </Typography>
         <form noValidate autoComplete="off">
           <TextField
-            id="username"
+            id="userName"
             className="text-fields"
             label="Username"
-            value={username}
+            value={userName}
             onChange={(e) => {
               setUsername(e.target.value);
             }}

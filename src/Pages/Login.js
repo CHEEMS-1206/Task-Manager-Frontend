@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 const Login = ({onLogin}) => {
   const moveTo = useNavigate();
 
-  const [username, setUsername] = React.useState("");
+  const [userName, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
 
   const loginHandler = async (e) => {
@@ -21,7 +21,7 @@ const Login = ({onLogin}) => {
     }
 
     const formData = {
-      username,
+      userName,
       password,
     };
 
@@ -41,7 +41,7 @@ const Login = ({onLogin}) => {
 
         // Save the token and user details in local storage for further use
         localStorage.setItem("token", token);
-        localStorage.setItem("username", username);
+        localStorage.setItem("userName", userName);
         onLogin();
         moveTo("/");
       } else {
@@ -70,10 +70,10 @@ const Login = ({onLogin}) => {
         </Typography>
         <form noValidate autoComplete="off">
           <TextField
-            id="username"
+            id="userName"
             className="text-fields"
             label="Username"
-            value={username}
+            value={userName}
             onChange={(e) => {
               setUsername(e.target.value);
             }}
