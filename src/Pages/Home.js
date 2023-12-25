@@ -8,10 +8,10 @@ import Navbar from "../Component/Navbar.js";
 import keyFeaturesImage from "../Assets/keyfeatures.jpg";
 import whyTM from "../Assets/whyTM.jpg";
 
-function Home() {
+function Home({onLogout}) {
   return (
     <div className="home-container">
-      <Navbar />
+      <Navbar onLogout={onLogout}/>
       <div className="header-container">
         <h1>Welcome to TaskMaster</h1>
         <p>

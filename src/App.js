@@ -27,7 +27,7 @@ function App({handleLogin}) {
     <BrowserRouter>
       {isLoggedIn ? (
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home onLogout={handleLogin} />} />
           <Route path="/logout" element={<div>LOGOUT</div>} />
           <Route path="/login" element={<Navigate to="/" />} />
           <Route path="/my-tasks" element={<div>My tasks</div>} />

@@ -1,10 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, Navigate } from "react-router-dom";
 
 import "./componentStyle.css";
 
-function Navbar() {
-  const isLoggedIn = localStorage.getItem("token") ? true : false;
+function Navbar({onLogout}) {
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("token") ? true : false);
 
   return (
     <div className="navbar">
@@ -26,7 +27,12 @@ function Navbar() {
       {isLoggedIn ? (
         <ul>
           <li>
-            <Link to="/logout">Logout</Link>
+            <button onClick={()=>{
+              localStorage.removeItem("token");
+              localStorage.removeItem("userName");
+              setIsLoggedIn(false)
+              onLogout()
+            }}>Logout</button>
           </li>
         </ul>
       ) : (
