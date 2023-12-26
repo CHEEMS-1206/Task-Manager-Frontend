@@ -3,9 +3,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilePen, fas } from "@fortawesome/free-solid-svg-icons";
 
-
 library.add(faFilePen, fas);
-
 
 const TaskRow = ({ task }) => {
   const handleUpdate = () => {
@@ -23,10 +21,22 @@ const TaskRow = ({ task }) => {
     colorCode = "#1abc9c";
   } else colorCode = "#c0392b";
 
+  const getDateChanged = (value) => {
+    const date = new Date(value);
+    const options = { day: "2-digit", month: "short", year: "numeric" };
+    return date.toLocaleDateString("en-US", options);
+  };
+
   return (
     <div className="task-card">
       <div className="task-title">{task.taskName}</div>
       <div className="task-description">{task.taskDescription}</div>
+      <div className="task-deadline">
+        Added on : {getDateChanged(task.taskCreatedAt)}
+      </div>
+      <div className="task-deadline">
+        Deadline : {getDateChanged(task.taskDeadline)}
+      </div>
       <div className="task-status">
         <p style={{ backgroundColor: colorCode }}>{task.taskStatus}</p>
         <div className="task-actions">

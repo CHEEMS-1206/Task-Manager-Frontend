@@ -33,8 +33,9 @@
 
 /* // taskRow //  */
 .task-card{
-  height: 200px;
+  height: 260px;
   width: 240px;
+  margin-bottom: 10px;
   border: 1px solid black;
   border-radius: 10px;
 }
@@ -52,6 +53,10 @@
   margin-bottom: 15px;
   width: 100%;
   overflow: auto;
+}
+.task-card .task-deadline{
+  padding-left: 12px;
+  margin: 15px 0;
 }
 .task-card .task-status{
   padding: 0 12px;
