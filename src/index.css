@@ -263,5 +263,67 @@ h3 {
   font-size: 16px;
 }
 .register-page .login-btn-container #register-page-login-header {
-  color:#eff7f3;
+  color: #eff7f3;
+}
+
+/* // All Tasks page //  */
+.all-tasks-page {
+  height: 100vh;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+.all-tasks-page .all-tasks-holder {
+  height: 100%;
+  width: 100%;
+  border: 1px solid red;
+  display: flex;
+  flex-flow: column;
+}
+.all-tasks-page .all-tasks-holder p {
+  font-size: 40px;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+.all-tasks-page .all-tasks-holder .card-container {
+  height: 80%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.all-tasks-page .all-tasks-holder .card-container h1 {
+  margin: 30px auto;
+}
+.all-tasks-page .all-tasks-holder .card-container .all-tasks {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(250px, 20px)
+  ); 
+  grid-gap: 20px;
+  width: 100%;
+  padding: 0 10%;
+  height: 80%;
+  overflow: auto;
+  justify-content: start;
+}
+.all-tasks-page .all-tasks-holder .pagination {
+  height: 10%;
+  padding: 0px 5%;
+  width: 90%;
+  align-items: center;
+  justify-content: space-between;
+  display: flex;
+  margin: 0px 5%;
+  position: fixed;
+  bottom: 20px;
+  font-size: 25px;
+  font-weight: 900;
+}
+.all-tasks-page .all-tasks-holder .pagination button {
+  font-size: 20px;
+  font-weight: 600;
 }

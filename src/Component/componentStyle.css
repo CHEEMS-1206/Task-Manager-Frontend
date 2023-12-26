@@ -34,27 +34,27 @@
 /* // taskRow //  */
 .task-card{
   height: 200px;
-  width: 280px;
+  width: 240px;
   border: 1px solid black;
   border-radius: 10px;
 }
 .task-card .task-title{
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 900;
   display: flex;
-  margin: 15px;
+  margin: 12px;
 }
 .task-card .task-description{
   font-size: 15px;
   text-align: justify;
-  padding: 10px 15px;
+  padding: 10px 12px;
   height: 80px;
   margin-bottom: 15px;
   width: 100%;
   overflow: auto;
 }
 .task-card .task-status{
-  padding: 0 15px;
+  padding: 0 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -73,9 +73,9 @@
   align-items: center;
   padding: 20px 0px;
   height: max-content;
-  padding: 0px 15px;
+  padding: 0px 12px;
 }
 .task-card .task-status .task-actions .action-btn{
   font-size: 20px;
-  margin-left: 15px;
+  margin-left: 12px;
 }
