@@ -14,9 +14,9 @@
   --secondaryPriColor: #eae8ff;
   --secondaryTextColor: black;
 
-  --statusOK : #1abc9c;
-  --statusBad : #c0392b;
-  --statusDef : rgb(255, 163, 77) ;
+  --statusOK: #1abc9c;
+  --statusBad: #c0392b;
+  --statusDef: rgb(255, 163, 77);
 }
 
 #root {
@@ -74,19 +74,22 @@
 }
 
 /* 2. Login Page  */
-.login-page {
+.login-page,
+.register-page {
   background-color: var(--secondaryPriColor);
   display: flex;
   flex-direction: row;
   height: 100vh;
   width: 100vw;
 }
-.login-page .form-container {
+.login-page .form-container,
+.register-page .form-container {
   width: 70%;
   display: flex;
   flex-direction: column;
 }
-.login-page .form-container #company-name {
+.login-page .form-container #company-name,
+.register-page .form-container #company-name {
   padding: 20px;
   cursor: pointer;
   font-size: 25px;
@@ -94,104 +97,16 @@
   margin-bottom: 10%;
 }
 .login-page .form-container #login-desc,
-.login-page .reg-btn-container #login-page-reg-header {
-  color: var(--secondaryTextColor);
-  font-weight: 600;
-  font-size: 40px;
-  margin-bottom: 0%;
-  text-align: center;
-}
-.login-page .form-container form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: auto;
-  padding: 0 0 10% 0;
-  width: 60%;
-}
-.login-page .form-container form .text-fields {
-  background-color: var(--secondaryPriColor);
-  margin-bottom: 25px;
-  border-radius: 30px;
-  width: 80%;
-}
-.login-page .form-container form .text-fields input {
-  height: 100%;
-  width: 100%;
-  border-radius: 10px;
-}
-.login-page .form-container form #login-btn,
-.login-page .reg-btn-container #reg-redirect-btn {
-  background-color: var(--primarySecColor);
-  font-size: 16px;
-  padding: 10px 100px;
-  border-radius: 30px;
-  margin-top: 5%;
-  width: max-content;
-}
-.login-page .reg-btn-container #reg-redirect-btn {
-  background-color: var(--secondaryPriColor);
-  color: var(--secondaryTextColor);
-}
-
-.login-page .reg-btn-container {
-  height: 100%;
-  background-color: var(--primarySecColor);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 30%;
-}
-.login-page .reg-btn-container #login-page-reg-desc {
-  margin: 5% 0%;
-  color: #eff7f3;
-  text-align: center;
-  width: 70%;
-  color: #eff7f3;
-  font-weight: 600;
-  font-size: 16px;
-}
-.login-page .reg-btn-container #login-page-reg-header {
-  color: #eff7f3;
-}
-.err-container{
-  width: max-content;
-  color: var(--statusBad);
-}
-
-/* // Register page //  */
-.register-page {
-  background-color: aliceblue;
-  background-position: center center;
-  background-size: 100% 100%;
-  display: flex;
-  flex-direction: row;
-  height: 100vh;
-  width: 100%;
-  overflow: hidden;
-}
-.register-page .form-container {
-  width: 70%;
-  display: flex;
-  flex-direction: column;
-}
-.register-page .form-container #company-name {
-  /* background-color: aqua; */
-  padding: 20px;
-  cursor: pointer;
-  font-size: 25px;
-  font-weight: 900;
-  margin-bottom: 7%;
-}
+.login-page .reg-btn-container #login-page-reg-header,
 .register-page .form-container #register-desc,
 .register-page .login-btn-container #register-page-login-header {
-  color: black;
+  color: var(--secondaryTextColor);
   font-weight: 600;
   font-size: 40px;
   margin-bottom: 0%;
   text-align: center;
 }
+.login-page .form-container form,
 .register-page .form-container form {
   display: flex;
   flex-direction: column;
@@ -199,42 +114,48 @@
   margin: auto;
   padding: 0 0 10% 0;
   width: 60%;
-  /* background-color: blue; */
 }
+.login-page .form-container form .text-fields,
 .register-page .form-container form .text-fields {
-  background-color: aliceblue;
+  background-color: var(--secondaryPriColor);
   margin-bottom: 25px;
   border-radius: 30px;
   width: 80%;
 }
+.login-page .form-container form .text-fields input,
 .register-page .form-container form .text-fields input {
   height: 100%;
   width: 100%;
   border-radius: 10px;
 }
+.login-page .form-container form #login-btn,
+.login-page .reg-btn-container #reg-redirect-btn,
 .register-page .form-container form #register-btn,
 .register-page .login-btn-container #login-redirect-btn {
-  background-color: #00308f;
+  background-color: var(--primarySecColor);
   font-size: 16px;
   padding: 10px 100px;
   border-radius: 30px;
   margin-top: 5%;
   width: max-content;
 }
+.login-page .reg-btn-container #reg-redirect-btn ,
 .register-page .login-btn-container #login-redirect-btn {
-  background-color: aliceblue;
-  color: black;
+  background-color: var(--secondaryPriColor);
+  color: var(--secondaryTextColor);
 }
 
+.login-page .reg-btn-container, 
 .register-page .login-btn-container {
   height: 100%;
-  background-color: #00308f;
+  background-color: var(--primarySecColor);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 30%;
 }
+.login-page .reg-btn-container #login-page-reg-desc,
 .register-page .login-btn-container #register-page-login-desc {
   margin: 5% 0%;
   color: #eff7f3;
@@ -244,8 +165,21 @@
   font-weight: 600;
   font-size: 16px;
 }
+.login-page .reg-btn-container #login-page-reg-header,
 .register-page .login-btn-container #register-page-login-header {
   color: #eff7f3;
+}
+.err-container {
+  width: max-content;
+  color: var(--statusBad);
+}
+
+/* // Register page //  */
+.register-page {
+  overflow: hidden;
+}
+.register-page .form-container #company-name {
+  margin-bottom: 7%;
 }
 
 /* // All Tasks page //  */

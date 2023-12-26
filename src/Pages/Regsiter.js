@@ -1,43 +1,73 @@
 import React from "react";
 import { Typography, TextField, Button } from "@mui/material";
-
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+import toastr from "toastr";
+import "toastr/build/toastr.min.css";
 
 const Register = () => {
   const moveTo = useNavigate();
 
+  const [valErr, setValErr] = useState(false);
+  const [errContent, setErrContent] = useState("");
   const [userName, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
   const [email, setEmail] = React.useState("");
+
+  const errHandler = (errValue) => {
+    setValErr(true);
+    setErrContent(errValue);
+    setTimeout(() => {
+      setValErr(false);
+    }, 3000);
+  };
+  toastr.options = {
+    position: "bottom-right",
+    hideDuration: 300,
+    timeOut: 3000,
+  };
+  toastr.clear();
 
   const isAlphanumeric = (str) => /^[a-zA-Z0-9]+$/.test(str);
   const isValidEmail = (str) => /\S+@\S+\.\S+/.test(str);
 
   const registerHandler = async (e) => {
     e.preventDefault();
-    // Validate userName
+
+    if (!userName) {
+      errHandler("Username field can't be empty.");
+      return;
+    } else if (!email) {
+      errHandler("Email field can't be empty.");
+      return;
+    } else if (!password) {
+      errHandler("Password field can't be empty.");
+      return;
+    } else if (!confirmPassword) {
+      errHandler("Confirm your password.");
+      return;
+    }
+
     if (!isAlphanumeric(userName) || userName.length < 5) {
-      alert(
+      errHandler(
         "Username must be alphanumeric and at least 5 characters long."
       );
       return;
     }
-
-    // Validate email
     if (!isValidEmail(email)) {
-      alert("Invalid email address.");
+      errHandler("Please enter a valid email address.");
       return;
     }
 
-    // Validate password length and match with confirm password
     if (password.length < 8 || password.length > 12) {
-      alert("Password must be 8 to 12 characters long.");
+      errHandler("Password must be 8 to 12 characters long.");
       return;
     }
 
     if (password !== confirmPassword) {
-      alert("Passwords do not match.");
+      errHandler("Passwords do not match.");
       return;
     }
 
@@ -57,25 +87,28 @@ const Register = () => {
       });
 
       if (response.status === 201) {
-        // Display a notification to the user
-        alert("User created successfully!");
+        setTimeout(() => toastr.success(`User Registered Successfully !`), 300);
 
         // Redirect to the login page after 300ms
         setTimeout(() => {
           moveTo("/login");
         }, 300);
-      } else {
-        alert("Failed to create user.");
-        // Handle other status codes or errors
+      } else if (response.status === 400) {
+        response.json().then((error) => {
+          errHandler(error.message);
+        });
+      } else if (response.status === 500) {
+        response.json().then((error) => {
+          console.log(error.message)
+          errHandler(error.message);
+        });
       }
     } catch (error) {
-      console.error("Error:", error);
-      // Handle network errors or exceptions
+      errHandler(error);
     }
   };
   function moveToLoginPage() {
     moveTo("/login");
-    console.log("Moved to login");
   }
 
   return (
@@ -86,7 +119,7 @@ const Register = () => {
           Have an account?
         </Typography>
         <Typography variant="body1" id="register-page-login-desc">
-          Login now and seamlessly explore our services!
+          Login now and manage your tasks using TaskMaster.
         </Typography>
         <Button
           variant="contained"
@@ -100,7 +133,7 @@ const Register = () => {
       {/* Section 2: Register form container */}
       <div className="form-container">
         <Typography variant="h4" id="company-name">
-          Accredian
+          TaskMaster
         </Typography>
         <Typography variant="h5" id="register-desc">
           Register an Account...
@@ -149,6 +182,12 @@ const Register = () => {
             }}
             margin="normal"
           />
+          <p
+            style={{ visibility: `${valErr ? "visible" : "hidden"}` }}
+            className="err-container"
+          >
+            * {errContent}
+          </p>
           <Button
             variant="contained"
             id="register-btn"
