@@ -328,7 +328,7 @@ h3 {
 }
 
 /* // Add tasks page //  */
-.add-tasks-page h1{
+.add-tasks-page h1, .update-task-page h1{
   text-align: center;
   margin: 30px 0;
 }
@@ -357,12 +357,16 @@ legend{
   font-weight: 600;
   padding-left: 10px;
 }
+select{
+  font-size: 20px;
+  padding-left: 15px;
+}
 
 .task-form input[type="date"] {
   width: 42px;
 }
 
-.add-task-button {
+.add-task-button, .update-task-button {
   background-color: #2980b9; /* Darker blue for the button */
   color: #fff;
   cursor: pointer;
@@ -371,4 +375,10 @@ legend{
 
 .add-task-button:hover {
   background-color: #1f618d; /* Darker shade on hover */
+}
+.fake-navbar{
+  background-color: #00308f;
+  height: 80px;
+  display: flex;
+  width: 100%;
 }
