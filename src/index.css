@@ -276,7 +276,6 @@ h3 {
 .all-tasks-page .all-tasks-holder {
   height: 100%;
   width: 100%;
-  border: 1px solid red;
   display: flex;
   flex-flow: column;
 }
@@ -326,4 +325,50 @@ h3 {
 .all-tasks-page .all-tasks-holder .pagination button {
   font-size: 20px;
   font-weight: 600;
+}
+
+/* // Add tasks page //  */
+.add-tasks-page h1{
+  text-align: center;
+  margin: 30px 0;
+}
+
+.task-form {
+  background-color: #eff7f3;
+  padding: 20px 10px;
+  display: flex;
+  width: 60%;
+  height: 100%;
+  margin: auto;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.task-form input,
+.task-form button {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+}
+legend{
+  font-size: 26px;
+  font-weight: 600;
+  padding-left: 10px;
+}
+
+.task-form input[type="date"] {
+  width: 42px;
+}
+
+.add-task-button {
+  background-color: #2980b9; /* Darker blue for the button */
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-task-button:hover {
+  background-color: #1f618d; /* Darker shade on hover */
 }

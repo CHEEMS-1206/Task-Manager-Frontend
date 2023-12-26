@@ -5,6 +5,7 @@ import Register from "./Pages/Regsiter.js";
 import Home from "./Pages/Home.js";
 import Login from "./Pages/Login.js";
 import AllTasks from "./Pages/AllTasks.js";
+import AddNewTask from "./Pages/AddNewTask.js";
 
 function AppWrapper() {
   const [key, setKey] = useState(0); // State to control the key of App component
@@ -32,7 +33,7 @@ function App({handleLogin}) {
           <Route path="/logout" element={<div>LOGOUT</div>} />
           <Route path="/login" element={<Navigate to="/" />} />
           <Route path="/my-tasks" element={<AllTasks onLogout={handleLogin} />} />
-          <Route path="/add-new-task" element={<div>Add New Task</div>} />
+          <Route path="/add-new-task" element={<AddNewTask onLogout={handleLogin}/>} />
           <Route path="/update-task" element={<div>Update task</div>} />
           <Route path="/remove-task" element={<div>Delete task</div>} />
           <Route
