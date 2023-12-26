@@ -3,7 +3,7 @@ import { Typography, TextField, Button } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
 
-const Login = ({onLogin}) => {
+const Login = ({ onLogin, setIsLoggedIn }) => {
   const moveTo = useNavigate();
 
   const [userName, setUsername] = React.useState("");
@@ -15,7 +15,7 @@ const Login = ({onLogin}) => {
     if (password.length < 8) {
       alert("Password must be atleast 8 characters.");
       return;
-    }else if(password.length > 12){
+    } else if (password.length > 12) {
       alert("Password must be not be greater than 12 characters.");
       return;
     }
@@ -43,6 +43,16 @@ const Login = ({onLogin}) => {
         localStorage.setItem("token", token);
         localStorage.setItem("userName", userName);
         onLogin();
+        setTimeout(
+          () => {
+            localStorage.removeItem("token");
+            localStorage.removeItem("userName");
+            setIsLoggedIn(false);
+            alert("Your Session Time elapsed.");
+            onLogin();
+          },
+          600000
+        );
         moveTo("/");
       } else {
         alert("Failed to log in.");
@@ -63,7 +73,7 @@ const Login = ({onLogin}) => {
       {/* Section 1: Login */}
       <div className="form-container">
         <Typography variant="h4" id="company-name">
-            Task Manager
+          Task Manager
         </Typography>
         <Typography variant="h5" id="login-desc">
           Login To Your Account...

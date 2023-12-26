@@ -52,7 +52,7 @@ function App({ handleLogin }) {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login onLogin={handleLogin} />} />
+          <Route path="/login" element={<Login onLogin={handleLogin} setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       )}
