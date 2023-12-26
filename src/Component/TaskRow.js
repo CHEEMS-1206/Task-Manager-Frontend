@@ -2,16 +2,44 @@ import React from "react";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilePen, fas } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 library.add(faFilePen, fas);
 
-const TaskRow = ({ task }) => {
+const TaskRow = ({ task, afterDelete }) => {
+  const Navigate = useNavigate();
   const handleUpdate = () => {
-    // Handle navigation to task update page
+    Navigate(`/update-task/${task.taskId}`);
   };
 
-  const handleDelete = () => {
-    // Handle deletion of the task from the database
+  const handleDelete = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const userRes = window.confirm(`You sure to to delete task : ${task.taskName} ?`);
+      if (userRes) {
+        const response = await fetch(
+          `http://localhost:5001/api/task/${task.taskId}`,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response.ok) {
+          alert("Task has been deleted");
+          afterDelete()
+        } else if(response.status === 303) {
+          alert("Default Tasks can't be deleted.")
+        }
+         else {
+          console.error("Failed to delete task");
+        }
+      }
+    } catch (error) {
+      console.error("Error deleting task:", error);
+    }
   };
 
   let colorCode;
@@ -39,20 +67,31 @@ const TaskRow = ({ task }) => {
       </div>
       <div className="task-status">
         <p style={{ backgroundColor: colorCode }}>{task.taskStatus}</p>
-        <div className="task-actions">
-          <FontAwesomeIcon
-            icon="fa-solid fa-file-pen"
-            onClick={handleUpdate}
-            className="action-btn"
-            style={{ color: "green" }}
-          />
-          <FontAwesomeIcon
-            icon="fa-solid fa-trash"
-            onClick={handleDelete}
-            className="action-btn"
-            style={{ color: "crimson" }}
-          />
-        </div>
+        {task.taskStatus === "Missed" || task.taskStatus === "Completed" ? (
+          <div className="task-actions">
+            <FontAwesomeIcon
+              icon="fa-solid fa-trash"
+              onClick={handleDelete}
+              className="action-btn"
+              style={{ color: "crimson" }}
+            />
+          </div>
+        ) : (
+          <div className="task-actions">
+            <FontAwesomeIcon
+              icon="fa-solid fa-file-pen"
+              onClick={handleUpdate}
+              className="action-btn"
+              style={{ color: "green" }}
+            />
+            <FontAwesomeIcon
+              icon="fa-solid fa-trash"
+              onClick={handleDelete}
+              className="action-btn"
+              style={{ color: "crimson" }}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
