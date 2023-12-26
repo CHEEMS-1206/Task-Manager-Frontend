@@ -12,7 +12,7 @@
   --primarySecColor: rgb(19, 30, 37);
   --primaryTextColor: white;
   --secondaryPriColor: #eae8ff;
-  --secondaryTextColor: white;
+  --secondaryTextColor: black;
 
   --statusOK : #1abc9c;
   --statusBad : #c0392b;
@@ -54,7 +54,7 @@
 .home-container .header-container h1 {
   font-size: 78px;
   font-weight: 900;
-  color: var(--secondaryTextColor);
+  color: var(--primaryTextColor);
 }
 .home-container .header-container p {
   font-size: 20px;
@@ -63,7 +63,7 @@
   text-align: center;
   justify-content: center;
   margin: 50px auto;
-  color: var(--secondaryTextColor);
+  color: var(--primaryTextColor);
 }
 .home-container .header-container #special-statement {
   margin: 0 auto;
@@ -75,9 +75,7 @@
 
 /* 2. Login Page  */
 .login-page {
-  background-color: aliceblue;
-  background-position: center center;
-  background-size: 100% 100%;
+  background-color: var(--secondaryPriColor);
   display: flex;
   flex-direction: row;
   height: 100vh;
@@ -89,7 +87,6 @@
   flex-direction: column;
 }
 .login-page .form-container #company-name {
-  /* background-color: aqua; */
   padding: 20px;
   cursor: pointer;
   font-size: 25px;
@@ -98,7 +95,7 @@
 }
 .login-page .form-container #login-desc,
 .login-page .reg-btn-container #login-page-reg-header {
-  color: black;
+  color: var(--secondaryTextColor);
   font-weight: 600;
   font-size: 40px;
   margin-bottom: 0%;
@@ -111,10 +108,9 @@
   margin: auto;
   padding: 0 0 10% 0;
   width: 60%;
-  /* background-color: blue; */
 }
 .login-page .form-container form .text-fields {
-  background-color: aliceblue;
+  background-color: var(--secondaryPriColor);
   margin-bottom: 25px;
   border-radius: 30px;
   width: 80%;
@@ -126,7 +122,7 @@
 }
 .login-page .form-container form #login-btn,
 .login-page .reg-btn-container #reg-redirect-btn {
-  background-color: #00308f;
+  background-color: var(--primarySecColor);
   font-size: 16px;
   padding: 10px 100px;
   border-radius: 30px;
@@ -134,13 +130,13 @@
   width: max-content;
 }
 .login-page .reg-btn-container #reg-redirect-btn {
-  background-color: aliceblue;
-  color: black;
+  background-color: var(--secondaryPriColor);
+  color: var(--secondaryTextColor);
 }
 
 .login-page .reg-btn-container {
   height: 100%;
-  background-color: #00308f;
+  background-color: var(--primarySecColor);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -158,6 +154,10 @@
 }
 .login-page .reg-btn-container #login-page-reg-header {
   color: #eff7f3;
+}
+.err-container{
+  width: max-content;
+  color: var(--statusBad);
 }
 
 /* // Register page //  */

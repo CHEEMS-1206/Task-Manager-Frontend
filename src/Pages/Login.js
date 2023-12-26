@@ -1,22 +1,49 @@
 import React from "react";
 import { Typography, TextField, Button } from "@mui/material";
-
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+import toastr from "toastr";
+import "toastr/build/toastr.min.css";
 
 const Login = ({ onLogin, setIsLoggedIn }) => {
   const moveTo = useNavigate();
 
+  const [valErr, setValErr] = useState(false);
+  const [errContent, setErrContent] = useState("");
   const [userName, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
 
+  const errHandler = (errValue) => {
+    setValErr(true);
+    setErrContent(errValue);
+    setTimeout(() => {
+      setValErr(false);
+    }, 3000);
+  };
+  toastr.options = {
+    position: "bottom-right",
+    hideDuration: 300,
+    timeOut: 3000,
+  };
+  toastr.clear()
+
   const loginHandler = async (e) => {
     e.preventDefault();
-    // Validate password (password: > 8 characters and  < 13)
+
+    if (!userName) {
+      errHandler("Username is required.");
+      return;
+    } else if (!password) {
+      errHandler("Password field can't be blank.");
+      return;
+    }
+
     if (password.length < 8) {
-      alert("Password must be atleast 8 characters.");
+      errHandler("Password must be atleast 8 characters.");
       return;
     } else if (password.length > 12) {
-      alert("Password must be not be greater than 12 characters.");
+      errHandler("Password must be not be greater than 12 characters.");
       return;
     }
 
@@ -26,7 +53,6 @@ const Login = ({ onLogin, setIsLoggedIn }) => {
     };
 
     try {
-      console.log(formData);
       const response = await fetch("http://localhost:5001/api/login", {
         method: "POST",
         headers: {
@@ -37,43 +63,43 @@ const Login = ({ onLogin, setIsLoggedIn }) => {
 
       if (response.ok) {
         const { token } = await response.json();
-        alert("Logged in successfully! Token:");
+        setTimeout(() => toastr.success(`User Logged in Successfully !`), 300);
 
         // Save the token and user details in local storage for further use
         localStorage.setItem("token", token);
         localStorage.setItem("userName", userName);
         onLogin();
-        setTimeout(
-          () => {
-            localStorage.removeItem("token");
-            localStorage.removeItem("userName");
-            setIsLoggedIn(false);
-            alert("Your Session Time elapsed.");
-            onLogin();
-          },
-          600000
-        );
+        setTimeout(() => {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userName");
+          setIsLoggedIn(false);
+          setTimeout(() => toastr.error("Your Session Time elapsed."), 300);
+          onLogin();
+        }, 600000);
         moveTo("/");
-      } else {
-        alert("Failed to log in.");
-        // Handle other status codes or errors
+      } else if (response.status === 401) {
+        response.json().then((error) => {
+          errHandler(error.message);
+        });
+      } else if (response.status === 500) {
+        response.json().then((error) => {
+          errHandler(error.message);
+        });
       }
     } catch (error) {
-      alert("Error:", error);
-      // Handle network errors or exceptions
+      errHandler(error);
     }
   };
 
   function moveToRegisterPage() {
     moveTo("/register");
-    console.log("Move to register page.");
   }
   return (
     <div className="login-page">
       {/* Section 1: Login */}
       <div className="form-container">
         <Typography variant="h4" id="company-name">
-          Task Manager
+          TaskMaster
         </Typography>
         <Typography variant="h5" id="login-desc">
           Login To Your Account...
@@ -100,6 +126,12 @@ const Login = ({ onLogin, setIsLoggedIn }) => {
             type="password"
             margin="normal"
           />
+          <p
+            style={{ visibility: `${valErr ? "visible" : "hidden"}` }}
+            className="err-container"
+          >
+            * {errContent}
+          </p>
           <Button variant="contained" id="login-btn" onClick={loginHandler}>
             Login
           </Button>
@@ -112,7 +144,7 @@ const Login = ({ onLogin, setIsLoggedIn }) => {
           New here?
         </Typography>
         <Typography variant="body1" id="login-page-reg-desc">
-          Sign up and befriend yourself with immense ocean of opportunities.
+          Sign up and start managing your tasks with TaskMaster
         </Typography>
         <Button
           onClick={moveToRegisterPage}
