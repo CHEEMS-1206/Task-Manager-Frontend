@@ -1,15 +1,27 @@
 import React from "react";
 import { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+
+import toastr from "toastr";
+import "toastr/build/toastr.min.css";
 
 import "./componentStyle.css";
 
-function Navbar({onLogout}) {
-  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("token") ? true : false);
+function Navbar({ onLogout }) {
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    localStorage.getItem("token") ? true : false
+  );
+
+  toastr.options = {
+    position: "bottom-right",
+    hideDuration: 300,
+    timeOut: 3000,
+  };
+  toastr.clear();
 
   return (
     <div className="navbar">
-      <div className="title-holder">Task Manager</div>
+      <div className="title-holder">TaskMaster</div>
       <ul>
         <li>
           <Link to="/">Home</Link>
@@ -27,12 +39,20 @@ function Navbar({onLogout}) {
       {isLoggedIn ? (
         <ul>
           <li>
-            <button onClick={()=>{
-              localStorage.removeItem("token");
-              localStorage.removeItem("userName");
-              setIsLoggedIn(false)
-              onLogout()
-            }}>Logout</button>
+            <Link
+              onClick={() => {
+                localStorage.removeItem("token");
+                localStorage.removeItem("userName");
+                setIsLoggedIn(false);
+                setTimeout(
+                  () => toastr.success("User Logged Out successfully."),
+                  300
+                );
+                onLogout();
+              }}
+            >
+              Logout
+            </Link>
           </li>
         </ul>
       ) : (
