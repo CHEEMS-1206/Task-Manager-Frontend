@@ -58,7 +58,7 @@ const AllTasks = ({ onLogout }) => {
             <h1>List of Tasks : </h1>
             <div className="all-tasks">
               {tasks.map((task) => (
-                <TaskRow key={task._id} task={task} />
+                <TaskRow afterDelete={fetchTasks} key={task._id} task={task} />
               ))}
             </div>
           </div>
