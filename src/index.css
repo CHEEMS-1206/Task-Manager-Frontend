@@ -7,6 +7,18 @@
   padding: 0;
   margin: 0;
 }
+:root {
+  --primaryPriColor: black;
+  --primarySecColor: rgb(19, 30, 37);
+  --primaryTextColor: white;
+  --secondaryPriColor: #eae8ff;
+  --secondaryTextColor: white;
+
+  --statusOK : #1abc9c;
+  --statusBad : #c0392b;
+  --statusDef : rgb(255, 163, 77) ;
+}
+
 #root {
   height: max-content;
   width: 100vw;
@@ -17,78 +29,48 @@
 
 /* 1. Home page  */
 .home-container {
-  height: 100vh;
+  height: max-content;
+  background-color: var(--secondaryPriColor);
+  background: radial-gradient(
+    circle at -8.9% 51.2%,
+    rgb(255, 124, 0) 0%,
+    rgb(255, 124, 0) 15.9%,
+    rgb(255, 163, 77) 15.9%,
+    rgb(255, 163, 77) 24.4%,
+    rgb(19, 30, 37) 24.5%,
+    rgb(19, 30, 37) 66%
+  );
   width: 100%;
-  /* background-image: url('./Assets/bg-image-home.jpg'); */
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  background-attachment: fixed;
 }
 .home-container .header-container {
-  height: max-content;
+  height: calc(100vh - 62.5px);
   width: 100%;
-  padding: 250px 10%;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  background-color: white;
-  /* background-image: url('./Assets/header-container-bg.jpg'); */
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  background-position: center top;
+  overflow: hidden;
 }
 .home-container .header-container h1 {
-  font-size: 70px;
+  font-size: 78px;
   font-weight: 900;
-  color: #00308f;
+  color: var(--secondaryTextColor);
 }
 .home-container .header-container p {
-  font-size: 25px;
-  margin-left: 10%;
-  text-align: justify;
-  color: #00308f;
-}
-.home-container .features-container,
-.home-container .whyTM-container {
-  height: max-content;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 50px 7%;
-  /* background-color: #00308F; */
-}
-h2 {
-  font-size: 40px;
-  padding: 10px 20px;
-  background-color: #00308f;
-  color: white;
-  margin-bottom: 35px;
-}
-h3 {
-  padding-left: 50px;
-  font-size: 30px;
-}
-
-.home-container .features-container p,
-.home-container .whyTM-container p {
   font-size: 20px;
-  margin: 15px 0 30px 0;
-  padding-left: 100px;
+  word-spacing: 7px;
+  width: 50%;
+  text-align: center;
+  justify-content: center;
+  margin: 50px auto;
+  color: var(--secondaryTextColor);
 }
-
-.home-container .features-container .first-child {
-  width: 58%;
-  height: 100%;
-}
-.home-container .imageholder {
-  height: 100%;
-  width: 38%;
-}
-.home-container .imageholder img {
-  height: 100%;
-  width: 100%;
-  transform: rotate(10deg);
+.home-container .header-container #special-statement {
+  margin: 0 auto;
+  font-size: 30px;
+  margin-top: 50px;
+  color: var(--statusDef);
+  text-align: center;
 }
 
 /* 2. Login Page  */
@@ -298,10 +280,7 @@ h3 {
 }
 .all-tasks-page .all-tasks-holder .card-container .all-tasks {
   display: grid;
-  grid-template-columns: repeat(
-    auto-fill,
-    minmax(250px, 20px)
-  ); 
+  grid-template-columns: repeat(auto-fill, minmax(250px, 20px));
   grid-gap: 20px;
   width: 100%;
   padding: 0 10%;
@@ -328,7 +307,8 @@ h3 {
 }
 
 /* // Add tasks page //  */
-.add-tasks-page h1, .update-task-page h1{
+.add-tasks-page h1,
+.update-task-page h1 {
   text-align: center;
   margin: 30px 0;
 }
@@ -352,12 +332,12 @@ h3 {
   border-radius: 5px;
   font-size: 16px;
 }
-legend{
+legend {
   font-size: 26px;
   font-weight: 600;
   padding-left: 10px;
 }
-select{
+select {
   font-size: 20px;
   padding-left: 15px;
 }
@@ -366,7 +346,8 @@ select{
   width: 42px;
 }
 
-.add-task-button, .update-task-button {
+.add-task-button,
+.update-task-button {
   background-color: #2980b9; /* Darker blue for the button */
   color: #fff;
   cursor: pointer;
@@ -376,7 +357,7 @@ select{
 .add-task-button:hover {
   background-color: #1f618d; /* Darker shade on hover */
 }
-.fake-navbar{
+.fake-navbar {
   background-color: #00308f;
   height: 80px;
   display: flex;
