@@ -55,7 +55,7 @@ const AllTasks = ({ onLogout }) => {
           <p>No Tasks created by you.</p>
         ) : (
           <div className="card-container">
-            <h1>List of Tasks : </h1>
+            <h1>List of Tasks</h1>
             <div className="all-tasks">
               {tasks.map((task) => (
                 <TaskRow afterDelete={fetchTasks} key={task._id} task={task} />

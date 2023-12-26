@@ -33,11 +33,13 @@
 
 /* // taskRow //  */
 .task-card{
-  height: 290px;
+  height: 270px;
   width: 240px;
   margin-bottom: 10px;
-  border: 1px solid black;
+  border: 2px inset black;
   border-radius: 10px;
+  background-color: var(--secondaryPriColor);
+  color: var(--primaryPriColor)
 }
 .task-card .task-title{
   font-size: 20px;
@@ -48,15 +50,16 @@
 .task-card .task-description{
   font-size: 15px;
   text-align: left;
-  padding: 10px 12px;
-  height: 110px;
-  margin-bottom: 15px;
+  padding: 5px 12px;
+  height: 100px;
+  margin-bottom: 10px;
   width: 100%;
-  overflow: auto;
+  overflow:auto;
 }
 .task-card .task-deadline{
   padding-left: 12px;
-  margin: 15px 0;
+  font-weight: 800;
+  margin: 0px 0 15px 0;
 }
 .task-card .task-status{
   padding: 0 12px;

@@ -139,13 +139,13 @@
   margin-top: 5%;
   width: max-content;
 }
-.login-page .reg-btn-container #reg-redirect-btn ,
+.login-page .reg-btn-container #reg-redirect-btn,
 .register-page .login-btn-container #login-redirect-btn {
   background-color: var(--secondaryPriColor);
   color: var(--secondaryTextColor);
 }
 
-.login-page .reg-btn-container, 
+.login-page .reg-btn-container,
 .register-page .login-btn-container {
   height: 100%;
   background-color: var(--primarySecColor);
@@ -187,6 +187,16 @@
   height: 100vh;
   display: flex;
   width: 100%;
+  background: radial-gradient(
+    circle at -8.9% 51.2%,
+    rgb(255, 124, 0) 0%,
+    rgb(255, 124, 0) 15.9%,
+    rgb(255, 163, 77) 15.9%,
+    rgb(255, 163, 77) 24.4%,
+    rgb(19, 30, 37) 24.5%,
+    rgb(19, 30, 37) 66%
+  );
+  background-color: var(--primarySecColor);
   flex-direction: column;
 }
 .all-tasks-page .all-tasks-holder {
@@ -211,6 +221,7 @@
 }
 .all-tasks-page .all-tasks-holder .card-container h1 {
   margin: 30px auto;
+  color: var(--primaryTextColor);
 }
 .all-tasks-page .all-tasks-holder .card-container .all-tasks {
   display: grid;
@@ -223,6 +234,7 @@
   justify-content: start;
 }
 .all-tasks-page .all-tasks-holder .pagination {
+  color: var(--primaryTextColor);
   height: 10%;
   padding: 0px 5%;
   width: 90%;
@@ -238,6 +250,7 @@
 .all-tasks-page .all-tasks-holder .pagination button {
   font-size: 20px;
   font-weight: 600;
+  color: var(--primaryTextColor);
 }
 
 /* // Add tasks page //  */
