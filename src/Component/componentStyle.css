@@ -33,7 +33,7 @@
 
 /* // taskRow //  */
 .task-card{
-  height: 260px;
+  height: 290px;
   width: 240px;
   margin-bottom: 10px;
   border: 1px solid black;
@@ -47,9 +47,9 @@
 }
 .task-card .task-description{
   font-size: 15px;
-  text-align: justify;
+  text-align: left;
   padding: 10px 12px;
-  height: 80px;
+  height: 110px;
   margin-bottom: 15px;
   width: 100%;
   overflow: auto;
