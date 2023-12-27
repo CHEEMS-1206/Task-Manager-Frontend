@@ -68,7 +68,7 @@ const AddNewTask = ({ onLogout }) => {
         });
       }
     } catch (error) {
-      errHandler("Error adding task:");
+      errHandler("Error adding task.");
     }
   };
 

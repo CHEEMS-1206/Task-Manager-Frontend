@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
+import toastr from "toastr";
+import "toastr/build/toastr.min.css";
+
 const UpdateTask = () => {
   const Navigate = useNavigate();
   const params = useParams();
@@ -11,6 +14,23 @@ const UpdateTask = () => {
     taskDeadline: "",
     taskStatus: "",
   });
+  const [valErr, setValErr] = useState(false);
+  const [errContent, setErrContent] = useState("");
+
+  const errHandler = (errValue) => {
+    setValErr(true);
+    setErrContent(errValue);
+    setTimeout(() => {
+      setValErr(false);
+    }, 3000);
+  };
+
+  toastr.options = {
+    position: "bottom-right",
+    hideDuration: 300,
+    timeOut: 3000,
+  };
+  toastr.clear();
 
   useEffect(() => {
     const fetchTask = async () => {
@@ -29,6 +49,12 @@ const UpdateTask = () => {
         );
         if (response.ok) {
           const taskData = await response.json();
+          const parsedDate = new Date(taskData.taskDeadline)
+          const year = parsedDate.getFullYear();
+          const month = String(parsedDate.getMonth() + 1).padStart(2, "0");
+          const day = String(parsedDate.getDate()).padStart(2, "0");
+
+          taskData.taskDeadline = `${year}-${month}-${day}`
           setTask(taskData);
         } else {
           console.error("Failed to fetch task");
@@ -51,6 +77,16 @@ const UpdateTask = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!task.taskName) {
+      errHandler("Task name must be provided.");
+      return;
+    } else if (!task.taskDescription) {
+      errHandler("Task description can't be empty.");
+      return;
+    } else if (!task.taskDeadline) {
+      errHandler("Chose a specific deadline date.");
+      return;
+    }
     try {
       const token = localStorage.getItem("token");
 
@@ -63,23 +99,23 @@ const UpdateTask = () => {
         body: JSON.stringify(task),
       });
       if (response.ok) {
-        alert("Task Updated successfully !");
+        setTimeout(() => toastr.success("Task updated successfully !"), 300);
         Navigate("/my-tasks");
-      } else if(response.status === 303){
-        alert("Default Task can't be updated.")
-        Navigate("/my-tasks")
-      }
-      else {
-        alert("Failed to update task");
+      } else if (response.status === 303) {
+        setTimeout(() => toastr.error("Can't update default task."), 300);
+        Navigate("/my-tasks");
+      } else {
+        response.json().then((error) => {
+          errHandler(error.msg);
+        });
       }
     } catch (error) {
-      console.error("Error updating task:", error);
+      errHandler("Error updating task.");
     }
   };
 
   return (
     <div className="update-task-page">
-      <div className="fake-navbar"></div>
       <h1>Update Task</h1>
       <div className="update-task-container">
         <form className="task-form" onSubmit={handleSubmit}>
@@ -115,6 +151,12 @@ const UpdateTask = () => {
             <option value="Pending">Pending</option>
             <option value="Completed">Completed</option>
           </select>
+          <p
+            style={{ visibility: `${valErr ? "visible" : "hidden"}` }}
+            className="err-container"
+          >
+            * {errContent}
+          </p>
           <button className="update-task-button" type="submit">
             Update Task
           </button>
