@@ -3,6 +3,10 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilePen, fas } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import useState from "react";
+
+import toastr from "toastr";
+import "toastr/build/toastr.min.css";
 
 library.add(faFilePen, fas);
 
@@ -12,10 +16,18 @@ const TaskRow = ({ task, afterDelete }) => {
     Navigate(`/update-task/${task.taskId}`);
   };
 
+  toastr.options = {
+    position: "bottom",
+    hideDuration: 300,
+    timeOut: 3000,
+  };
+
   const handleDelete = async () => {
     try {
       const token = localStorage.getItem("token");
-      const userRes = window.confirm(`You sure to to delete task : ${task.taskName} ?`);
+      const userRes = window.confirm(
+        `You sure to to delete task : ${task.taskName} ?`
+      );
       if (userRes) {
         const response = await fetch(
           `http://localhost:5001/api/task/${task.taskId}`,
@@ -28,13 +40,12 @@ const TaskRow = ({ task, afterDelete }) => {
           }
         );
         if (response.ok) {
-          alert("Task has been deleted");
-          afterDelete()
-        } else if(response.status === 303) {
-          alert("Default Tasks can't be deleted.")
-        }
-         else {
-          console.error("Failed to delete task");
+          setTimeout(() => toastr.success("Task deleted successfully."), 300);
+          afterDelete();
+        } else if (response.status === 303) {
+          toastr.error("Default Tasks can't be deleted.");
+        } else {
+          toastr.error("Failed to delete task");
         }
       }
     } catch (error) {

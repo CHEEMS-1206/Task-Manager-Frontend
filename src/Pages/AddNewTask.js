@@ -30,7 +30,6 @@ const AddNewTask = ({ onLogout }) => {
     hideDuration: 300,
     timeOut: 3000,
   };
-  toastr.clear();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -61,7 +60,7 @@ const AddNewTask = ({ onLogout }) => {
         body: JSON.stringify(formData),
       });
       if (response.ok) {
-        toastr.success("Task Added successfully !");
+        setTimeout(() => toastr.success("Task added successfully !"), 300);
         Navigate("/my-tasks");
       } else {
         response.json().then((error) => {
@@ -69,7 +68,7 @@ const AddNewTask = ({ onLogout }) => {
         });
       }
     } catch (error) {
-      console.error("Error adding task:", error);
+      errHandler("Error adding task:");
     }
   };
 
