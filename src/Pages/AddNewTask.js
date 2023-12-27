@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import toastr from "toastr";
+import "toastr/build/toastr.min.css";
+
 import Navbar from "../Component/Navbar.js";
 
 const AddNewTask = ({ onLogout }) => {
@@ -12,6 +15,23 @@ const AddNewTask = ({ onLogout }) => {
     token: localStorage.getItem("token"),
   });
 
+  const [valErr, setValErr] = useState(false);
+  const [errContent, setErrContent] = useState("");
+
+  const errHandler = (errValue) => {
+    setValErr(true);
+    setErrContent(errValue);
+    setTimeout(() => {
+      setValErr(false);
+    }, 3000);
+  };
+  toastr.options = {
+    position: "bottom-right",
+    hideDuration: 300,
+    timeOut: 3000,
+  };
+  toastr.clear();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -22,15 +42,16 @@ const AddNewTask = ({ onLogout }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (
-      !formData.taskName ||
-      !formData.taskDescription ||
-      !formData.taskDeadline
-    ) {
-      alert("Form values cant be empty !");
+    if (!formData.taskName) {
+      errHandler("Task name must be provided.");
+      return;
+    } else if (!formData.taskDescription) {
+      errHandler("Task description can't be empty.");
+      return;
+    } else if (!formData.taskDeadline) {
+      errHandler("Chose a specific deadline date.");
       return;
     }
-
     try {
       const response = await fetch("http://localhost:5001/api/task", {
         method: "POST",
@@ -40,10 +61,12 @@ const AddNewTask = ({ onLogout }) => {
         body: JSON.stringify(formData),
       });
       if (response.ok) {
-        alert("Task Added successfully !");
+        toastr.success("Task Added successfully !");
         Navigate("/my-tasks");
       } else {
-        alert("Failed to Add task");
+        response.json().then((error) => {
+          errHandler(error.msg);
+        });
       }
     } catch (error) {
       console.error("Error adding task:", error);
@@ -79,6 +102,12 @@ const AddNewTask = ({ onLogout }) => {
             value={formData.taskDeadline}
             onChange={handleChange}
           />
+          <p
+            style={{ visibility: `${valErr ? "visible" : "hidden"}` }}
+            className="err-container"
+          >
+            * {errContent}
+          </p>
           <button className="add-task-button" type="submit">
             Add Task
           </button>

@@ -52,12 +52,12 @@
   overflow: hidden;
 }
 .home-container .header-container h1 {
-  font-size: 78px;
+  font-size: 70px;
   font-weight: 900;
   color: var(--primaryTextColor);
 }
 .home-container .header-container p {
-  font-size: 20px;
+  font-size: 18px;
   word-spacing: 7px;
   width: 50%;
   text-align: center;
@@ -67,7 +67,7 @@
 }
 .home-container .header-container #special-statement {
   margin: 0 auto;
-  font-size: 30px;
+  font-size: 22px;
   margin-top: 50px;
   color: var(--statusDef);
   text-align: center;
@@ -172,6 +172,7 @@
 .err-container {
   width: max-content;
   color: var(--statusBad);
+  text-align: center;
 }
 
 /* // Register page //  */
@@ -198,6 +199,7 @@
   );
   background-color: var(--primarySecColor);
   flex-direction: column;
+  overflow: hidden;
 }
 .all-tasks-page .all-tasks-holder {
   height: 100%;
@@ -254,17 +256,31 @@
 }
 
 /* // Add tasks page //  */
+.add-tasks-page {
+  background: radial-gradient(
+    circle at -8.9% 51.2%,
+    rgb(255, 124, 0) 0%,
+    rgb(255, 124, 0) 15.9%,
+    rgb(255, 163, 77) 15.9%,
+    rgb(255, 163, 77) 24.4%,
+    rgb(19, 30, 37) 24.5%,
+    rgb(19, 30, 37) 66%
+  );
+  height: calc(100vh);
+}
 .add-tasks-page h1,
 .update-task-page h1 {
+  color: var(--primaryTextColor);
   text-align: center;
   margin: 30px 0;
 }
 
 .task-form {
-  background-color: #eff7f3;
-  padding: 20px 10px;
+  background-color: var(--secondaryPriColor);
+  background-color: var(--primaryPriColor);
+  padding: 20px 0 0 0;
   display: flex;
-  width: 60%;
+  width: 50%;
   height: 100%;
   margin: auto;
   flex-direction: column;
@@ -272,41 +288,54 @@
   margin-top: 20px;
 }
 
-.task-form input,
-.task-form button {
-  padding: 10px;
-  border: none;
+.task-form input {
+  padding: 10px 25px;
+  background-color: var(--primarySecColor);
+  color: var(--primaryTextColor);
+  margin: 0 20px;
   border-radius: 5px;
   font-size: 16px;
 }
+.task-form input:active{
+  background-color: var(--primarySecColor);
+}
 legend {
-  font-size: 26px;
+  color: var(--primaryTextColor);
+  font-size: 22px;
+  margin: 10px 0;
   font-weight: 600;
-  padding-left: 10px;
+  padding-left: 25px;
 }
 select {
+  color: var(--primaryTextColor);
   font-size: 20px;
   padding-left: 15px;
 }
 
-.task-form input[type="date"] {
-  width: 42px;
-}
-
 .add-task-button,
 .update-task-button {
-  background-color: #2980b9; /* Darker blue for the button */
-  color: #fff;
+  margin-top: 10px;
+  padding: 10px;
+  font-size: 22px;
+  font-weight: 700;
+  background-color: var(--statusDef);
+  color: var(--secondaryPriColor);
   cursor: pointer;
+  border-radius: 0;
   transition: background-color 0.3s ease;
+}
+.add-task-container .err-container{
+  width: max-content;
+  margin: auto;
+  color: var(--primaryTextColor);
 }
 
 .add-task-button:hover {
-  background-color: #1f618d; /* Darker shade on hover */
+  background-color: rgb(255, 124, 0);
 }
 .fake-navbar {
-  background-color: #00308f;
-  height: 80px;
+  background-color: var(--primaryPriColor);
+  height: 62.5px;
   display: flex;
   width: 100%;
 }
