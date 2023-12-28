@@ -106,7 +106,7 @@ const UpdateTask = () => {
         setTimeout(() => toastr.success("Task updated successfully !"), 300);
         Navigate("/my-tasks");
       } else if (response.status === 303) {
-        setTimeout(() => toastr.error("Can't update default task."), 300);
+        setTimeout(() => toastr.warning("Can't update default task."), 300);
         Navigate("/my-tasks");
       } else {
         setTimeout(() => toastr.error("Failed to update task."), 300);
