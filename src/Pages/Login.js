@@ -5,14 +5,16 @@ import { useNavigate } from "react-router-dom";
 
 import toastr from "toastr";
 import "toastr/build/toastr.min.css";
+import LoaderSpinner from "../Component/LoaderSpineer.js";
 
 const Login = ({ onLogin, setIsLoggedIn }) => {
   const moveTo = useNavigate();
 
   const [valErr, setValErr] = useState(false);
   const [errContent, setErrContent] = useState("");
-  const [userName, setUsername] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [userName, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const errHandler = (errValue) => {
     setValErr(true);
@@ -26,7 +28,7 @@ const Login = ({ onLogin, setIsLoggedIn }) => {
     hideDuration: 300,
     timeOut: 3000,
   };
-  toastr.clear()
+  toastr.clear();
 
   const loginHandler = async (e) => {
     e.preventDefault();
@@ -53,6 +55,7 @@ const Login = ({ onLogin, setIsLoggedIn }) => {
     };
 
     try {
+      setIsLoading(true);
       const response = await fetch("http://localhost:5001/api/login", {
         method: "POST",
         headers: {
@@ -88,13 +91,19 @@ const Login = ({ onLogin, setIsLoggedIn }) => {
       }
     } catch (error) {
       errHandler(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   function moveToRegisterPage() {
     moveTo("/register");
   }
-  return (
+  return isLoading ? (
+    <div className="login-page">
+      <LoaderSpinner />
+    </div>
+  ) : (
     <div className="login-page">
       {/* Section 1: Login */}
       <div className="form-container">
@@ -157,5 +166,4 @@ const Login = ({ onLogin, setIsLoggedIn }) => {
     </div>
   );
 };
-
 export default Login;
