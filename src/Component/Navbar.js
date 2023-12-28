@@ -17,6 +17,11 @@ function Navbar({ onLogout }) {
     hideDuration: 300,
     timeOut: 3000,
   };
+  const navigationHandler = () =>{
+    if(!isLoggedIn){
+      toastr.warning("Login to access this link.")
+    }
+  }
 
   return (
     <div className="navbar">
@@ -26,13 +31,19 @@ function Navbar({ onLogout }) {
           <Link to="/">Home</Link>
         </li>
         <li>
-          <Link to="/my-tasks">All Taks</Link>
+          <Link to="/my-tasks" onClick={navigationHandler}>
+            All Taks
+          </Link>
         </li>
         <li>
-          <Link to="/add-new-task">Add Tasks</Link>
+          <Link to="/add-new-task" onClick={navigationHandler}>
+            Add Tasks
+          </Link>
         </li>
         <li>
-          <Link to="/my-tasks-analytics">Task Analytics</Link>
+          <Link to="/my-tasks-analytics" onClick={navigationHandler}>
+            Task Analytics
+          </Link>
         </li>
       </ul>
       {isLoggedIn ? (
