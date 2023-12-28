@@ -23,12 +23,12 @@ const Login = ({ onLogin, setIsLoggedIn }) => {
       setValErr(false);
     }, 3000);
   };
+
   toastr.options = {
     position: "bottom-right",
     hideDuration: 300,
     timeOut: 3000,
   };
-  toastr.clear();
 
   const loginHandler = async (e) => {
     e.preventDefault();
@@ -81,15 +81,18 @@ const Login = ({ onLogin, setIsLoggedIn }) => {
         }, 600000);
         moveTo("/");
       } else if (response.status === 401) {
+        setTimeout(() => toastr.error("Failed to login !"), 300);
         response.json().then((error) => {
           errHandler(error.message);
         });
       } else if (response.status === 500) {
+        setTimeout(() => toastr.error("Failed to login !"), 300);
         response.json().then((error) => {
           errHandler(error.message);
         });
       }
     } catch (error) {
+      setTimeout(() => toastr.error("Failed to login !"), 300);
       errHandler(error);
     } finally {
       setIsLoading(false);

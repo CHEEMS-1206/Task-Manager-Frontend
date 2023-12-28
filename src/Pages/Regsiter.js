@@ -25,12 +25,12 @@ const Register = () => {
       setValErr(false);
     }, 3000);
   };
+
   toastr.options = {
     position: "bottom-right",
     hideDuration: 300,
     timeOut: 3000,
   };
-  toastr.clear();
 
   const isAlphanumeric = (str) => /^[a-zA-Z0-9]+$/.test(str);
   const isValidEmail = (str) => /\S+@\S+\.\S+/.test(str);
@@ -80,7 +80,7 @@ const Register = () => {
     };
 
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       const response = await fetch("http://localhost:5001/api/register", {
         method: "POST",
         headers: {
@@ -91,25 +91,26 @@ const Register = () => {
 
       if (response.status === 201) {
         setTimeout(() => toastr.success(`User Registered Successfully !`), 300);
-
-        // Redirect to the login page after 300ms
         setTimeout(() => {
           moveTo("/login");
         }, 300);
       } else if (response.status === 400) {
+        setTimeout(() => toastr.error(`Couldn't register user !`), 300);
         response.json().then((error) => {
           errHandler(error.message);
         });
       } else if (response.status === 500) {
+        setTimeout(() => toastr.error(`Couldn't register user !`), 300);
         response.json().then((error) => {
-          console.log(error.message)
+          console.log(error.message);
           errHandler(error.message);
         });
       }
     } catch (error) {
+      setTimeout(() => toastr.error(`Couldn't register user !`), 300);
       errHandler(error);
-    } finally{
-      setIsLoading(false)
+    } finally {
+      setIsLoading(false);
     }
   };
   function moveToLoginPage() {

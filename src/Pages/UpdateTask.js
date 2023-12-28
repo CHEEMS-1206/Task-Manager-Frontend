@@ -32,7 +32,6 @@ const UpdateTask = () => {
     hideDuration: 300,
     timeOut: 3000,
   };
-  toastr.clear();
 
   useEffect(() => {
     const fetchTask = async () => {
@@ -110,11 +109,13 @@ const UpdateTask = () => {
         setTimeout(() => toastr.error("Can't update default task."), 300);
         Navigate("/my-tasks");
       } else {
+        setTimeout(() => toastr.error("Failed to update task."), 300);
         response.json().then((error) => {
           errHandler(error.msg);
         });
       }
     } catch (error) {
+      setTimeout(() => toastr.error("Failed to update task."), 300);
       errHandler("Error updating task.");
     }
   };

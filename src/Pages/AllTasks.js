@@ -22,7 +22,6 @@ const AllTasks = ({ onLogout }) => {
     hideDuration: 300,
     timeOut: 3000,
   };
-  toastr.clear();
 
   const fetchTasks = async (page = 1, limit = 10) => {
     try {
@@ -46,10 +45,11 @@ const AllTasks = ({ onLogout }) => {
         setTasks(data.tasks);
         setTimeout(() => toastr.success("All tasks fetched."), 300);
       } else {
-        console.log("Failed To fetch tasks.")
-        setTimeout(() => toastr.error("An error occured."), 300);
+        console.log("Failed To fetch tasks.");
+        setTimeout(() => toastr.error("Couldn't fetch tasks."), 300);
       }
     } catch (error) {
+      setTimeout(() => toastr.error("Couldn't fetch tasks."), 300);
       console.log("Failed To fetch tasks.");
     } finally {
       setIsLoading(false);

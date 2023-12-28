@@ -27,6 +27,7 @@ const AddNewTask = ({ onLogout }) => {
       setValErr(false);
     }, 3000);
   };
+
   toastr.options = {
     position: "bottom-right",
     hideDuration: 300,
@@ -66,11 +67,13 @@ const AddNewTask = ({ onLogout }) => {
         setTimeout(() => toastr.success("Task added successfully !"), 300);
         Navigate("/my-tasks");
       } else {
+        setTimeout(() => toastr.error("Failed to add task !"), 300);
         response.json().then((error) => {
           errHandler(error.msg);
         });
       }
     } catch (error) {
+      setTimeout(() => toastr.error("Failed to add task !"), 300);
       errHandler("Error adding task.");
     } finally {
       setIsLoading(false);

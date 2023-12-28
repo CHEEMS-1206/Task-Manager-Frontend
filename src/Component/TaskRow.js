@@ -5,7 +5,7 @@ import { faFilePen, fas } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import {useState} from "react";
 
-import LoaderSpinner from "../Component/LoaderSpineer.js";
+import LoaderSpinner from "./LoaderSpineer.js";
 
 import toastr from "toastr";
 import "toastr/build/toastr.min.css";
@@ -47,12 +47,13 @@ const TaskRow = ({ task, afterDelete }) => {
           setTimeout(() => toastr.success("Task deleted successfully."), 300);
           afterDelete();
         } else if (response.status === 303) {
-          toastr.error("Default Tasks can't be deleted.");
+          setTimeout(() => toastr.warning("Default Tasks can't be deleted."),300);
         } else {
-          toastr.error("Failed to delete task");
+          setTimeout(() => toastr.error("Failed to delete task"),300);
         }
       }
     } catch (error) {
+      setTimeout(() => toastr.error("Failed to delete task"), 300);
       console.error("Error deleting task:", error);
     }finally{
       setIsLoading(false)

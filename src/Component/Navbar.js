@@ -17,9 +17,10 @@ function Navbar({ onLogout }) {
     hideDuration: 300,
     timeOut: 3000,
   };
+  
   const navigationHandler = () =>{
     if(!isLoggedIn){
-      toastr.warning("Login to access this link.")
+      setTimeout(() => toastr.warning("Login to access this link."),300)
     }
   }
 
@@ -54,7 +55,6 @@ function Navbar({ onLogout }) {
                 localStorage.removeItem("token");
                 localStorage.removeItem("userName");
                 setIsLoggedIn(false);
-                toastr.clear();
                 setTimeout(
                   () => toastr.success("User Logged Out successfully."),
                   300
