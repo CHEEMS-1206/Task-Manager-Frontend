@@ -3,7 +3,9 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilePen, fas } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import useState from "react";
+import {useState} from "react";
+
+import LoaderSpinner from "../Component/LoaderSpineer.js";
 
 import toastr from "toastr";
 import "toastr/build/toastr.min.css";
@@ -12,6 +14,7 @@ library.add(faFilePen, fas);
 
 const TaskRow = ({ task, afterDelete }) => {
   const Navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const handleUpdate = () => {
     Navigate(`/update-task/${task.taskId}`);
   };
@@ -24,6 +27,7 @@ const TaskRow = ({ task, afterDelete }) => {
 
   const handleDelete = async () => {
     try {
+      setIsLoading(true)
       const token = localStorage.getItem("token");
       const userRes = window.confirm(
         `You sure to to delete task : ${task.taskName} ?`
@@ -50,6 +54,8 @@ const TaskRow = ({ task, afterDelete }) => {
       }
     } catch (error) {
       console.error("Error deleting task:", error);
+    }finally{
+      setIsLoading(false)
     }
   };
 
@@ -66,7 +72,11 @@ const TaskRow = ({ task, afterDelete }) => {
     return date.toLocaleDateString("en-US", options);
   };
 
-  return (
+  return isLoading ? (
+    <div className="task-card">
+      <LoaderSpinner />
+    </div>
+  ) : (
     <div className="task-card">
       <div className="task-title">{task.taskName}</div>
       <div className="task-description">{task.taskDescription}</div>

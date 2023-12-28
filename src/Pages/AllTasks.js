@@ -3,17 +3,30 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../Component/Navbar.js";
 import TaskRow from "../Component/TaskRow.js";
 
+import toastr from "toastr";
+import "toastr/build/toastr.min.css";
+import LoaderSpinner from "../Component/LoaderSpineer.js";
+
 const AllTasks = ({ onLogout }) => {
   const [tasks, setTasks] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     fetchTasks(currentPage, 10);
   }, [currentPage]);
 
+  toastr.options = {
+    position: "bottom-right",
+    hideDuration: 300,
+    timeOut: 3000,
+  };
+  toastr.clear();
+
   const fetchTasks = async (page = 1, limit = 10) => {
     try {
+      setIsLoading(true);
       const token = localStorage.getItem("token");
 
       const response = await fetch(
@@ -31,11 +44,15 @@ const AllTasks = ({ onLogout }) => {
         const data = await response.json();
         setMaxPage(data.totalPages);
         setTasks(data.tasks);
+        setTimeout(() => toastr.success("All tasks fetched."), 300);
       } else {
-        console.error("Failed to fetch tasks");
+        console.log("Failed To fetch tasks.")
+        setTimeout(() => toastr.error("An error occured."), 300);
       }
     } catch (error) {
-      console.error("Error fetching tasks:", error);
+      console.log("Failed To fetch tasks.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -50,25 +67,35 @@ const AllTasks = ({ onLogout }) => {
   return (
     <div className="all-tasks-page">
       <Navbar onLogout={onLogout} />
-      <div className="all-tasks-holder">
-        {tasks.length === 0 ? (
-          <p>No Tasks created by you.</p>
-        ) : (
-          <div className="card-container">
-            <h1>List of Tasks</h1>
-            <div className="all-tasks">
-              {tasks.map((task) => (
-                <TaskRow afterDelete={fetchTasks} key={task._id} task={task} />
-              ))}
-            </div>
-          </div>
-        )}
-        <div className="pagination">
-          <button onClick={goToPreviousPage}>Previous</button>
-          <span>Page: {currentPage}</span>
-          <button onClick={goToNextPage}>Next</button>
+      {isLoading ? (
+        <div className="all-tasks-holder">
+          <LoaderSpinner />
         </div>
-      </div>
+      ) : (
+        <div className="all-tasks-holder">
+          {tasks.length === 0 ? (
+            <p>No Tasks created by you.</p>
+          ) : (
+            <div className="card-container">
+              <h1>List of Tasks</h1>
+              <div className="all-tasks">
+                {tasks.map((task) => (
+                  <TaskRow
+                    afterDelete={fetchTasks}
+                    key={task._id}
+                    task={task}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+          <div className="pagination">
+            <button onClick={goToPreviousPage}>Previous</button>
+            <span>Page: {currentPage}</span>
+            <button onClick={goToNextPage}>Next</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
