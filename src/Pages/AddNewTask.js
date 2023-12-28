@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import toastr from "toastr";
 import "toastr/build/toastr.min.css";
+import LoaderSpinner from "../Component/LoaderSpineer.js";
 
 import Navbar from "../Component/Navbar.js";
 
@@ -17,6 +18,7 @@ const AddNewTask = ({ onLogout }) => {
 
   const [valErr, setValErr] = useState(false);
   const [errContent, setErrContent] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const errHandler = (errValue) => {
     setValErr(true);
@@ -52,6 +54,7 @@ const AddNewTask = ({ onLogout }) => {
       return;
     }
     try {
+      setIsLoading(true);
       const response = await fetch("http://localhost:5001/api/task", {
         method: "POST",
         headers: {
@@ -69,10 +72,17 @@ const AddNewTask = ({ onLogout }) => {
       }
     } catch (error) {
       errHandler("Error adding task.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  return (
+  return isLoading ? (
+    <div>
+      <Navbar onLogout={onLogout} />
+      <LoaderSpinner />
+    </div>
+  ) : (
     <div className="add-tasks-page">
       <Navbar onLogout={onLogout} />
       <h1>Add New Task</h1>
