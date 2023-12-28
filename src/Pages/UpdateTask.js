@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import toastr from "toastr";
 import "toastr/build/toastr.min.css";
+import LoaderSpinner from "../Component/LoaderSpineer.js";
 
 const UpdateTask = () => {
   const Navigate = useNavigate();
@@ -16,6 +17,7 @@ const UpdateTask = () => {
   });
   const [valErr, setValErr] = useState(false);
   const [errContent, setErrContent] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const errHandler = (errValue) => {
     setValErr(true);
@@ -35,6 +37,7 @@ const UpdateTask = () => {
   useEffect(() => {
     const fetchTask = async () => {
       try {
+        setIsLoading(true);
         const token = localStorage.getItem("token");
 
         const response = await fetch(
@@ -49,18 +52,20 @@ const UpdateTask = () => {
         );
         if (response.ok) {
           const taskData = await response.json();
-          const parsedDate = new Date(taskData.taskDeadline)
+          const parsedDate = new Date(taskData.taskDeadline);
           const year = parsedDate.getFullYear();
           const month = String(parsedDate.getMonth() + 1).padStart(2, "0");
           const day = String(parsedDate.getDate()).padStart(2, "0");
 
-          taskData.taskDeadline = `${year}-${month}-${day}`
+          taskData.taskDeadline = `${year}-${month}-${day}`;
           setTask(taskData);
         } else {
           console.error("Failed to fetch task");
         }
       } catch (error) {
         console.error("Error fetching task:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -114,7 +119,11 @@ const UpdateTask = () => {
     }
   };
 
-  return (
+  return isLoading ? (
+    <div className="update-task-page">
+      <LoaderSpinner />
+    </div>
+  ) : (
     <div className="update-task-page">
       <h1>Update Task</h1>
       <div className="update-task-container">
