@@ -88,4 +88,5 @@
 .task-card .task-status .task-actions .action-btn{
   font-size: 20px;
   margin-left: 12px;
+  cursor: pointer;
 }

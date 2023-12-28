@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 
 import "animate.css";
 
 // imported components
 import Navbar from "../Component/Navbar.js";
 
-function Home({ onLogout }) {
+function Home({ onLogout, isLoggedIn }) {
   return (
     <div className="home-container">
-      <Navbar onLogout={onLogout} />
+      <Navbar onLogout={onLogout}/>
       <div className="header-container">
         <h1 className="animate__animated animate__backInLeft animate__slow">
           TaskMaster
@@ -18,9 +18,21 @@ function Home({ onLogout }) {
           Stay organized, boost productivity, and achieve your goals
           effortlessly with our intuitive and powerful task management platform.
         </p>
-        <p className="animate__animated animate__backInLeft animate__slow" id="special-statement">
-          Create an account or register to manage your tasks.
-        </p>
+        {isLoggedIn ? (
+          <p
+            className="animate__animated animate__backInLeft animate__slow"
+            id="special-statement"
+          >
+            Manage your Tasks efficently with TaskMaster.
+          </p>
+        ) : (
+          <p
+            className="animate__animated animate__backInLeft animate__slow"
+            id="special-statement"
+          >
+            Create an account or register to manage your tasks.
+          </p>
+        )}
       </div>
     </div>
   );

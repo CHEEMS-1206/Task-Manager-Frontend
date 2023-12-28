@@ -30,7 +30,7 @@ function App({ handleLogin }) {
     <BrowserRouter>
       {isLoggedIn ? (
         <Routes>
-          <Route path="/" element={<Home onLogout={handleLogin} />} />
+          <Route path="/" element={<Home onLogout={handleLogin} isLoggedIn={isLoggedIn} />} />
           <Route path="/logout" element={<div>LOGOUT</div>} />
           <Route path="/login" element={<Navigate to="/" />} />
           <Route

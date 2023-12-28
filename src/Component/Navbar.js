@@ -33,7 +33,7 @@ function Navbar({ onLogout }) {
         </li>
         <li>
           <Link to="/my-tasks" onClick={navigationHandler}>
-            All Taks
+            All Tasks
           </Link>
         </li>
         <li>
