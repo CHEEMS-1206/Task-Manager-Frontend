@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import toastr from "toastr";
 import "toastr/build/toastr.min.css";
+import LoaderSpinner from "../Component/LoaderSpineer.js";
 
 const Register = () => {
   const moveTo = useNavigate();
@@ -15,6 +16,7 @@ const Register = () => {
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
   const [email, setEmail] = React.useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const errHandler = (errValue) => {
     setValErr(true);
@@ -78,6 +80,7 @@ const Register = () => {
     };
 
     try {
+      setIsLoading(true)
       const response = await fetch("http://localhost:5001/api/register", {
         method: "POST",
         headers: {
@@ -105,13 +108,19 @@ const Register = () => {
       }
     } catch (error) {
       errHandler(error);
+    } finally{
+      setIsLoading(false)
     }
   };
   function moveToLoginPage() {
     moveTo("/login");
   }
 
-  return (
+  return isLoading ? (
+    <div className="register-page">
+      <LoaderSpinner />
+    </div>
+  ) : (
     <div className="register-page">
       {/* Section 1: Redirect to login */}
       <div className="login-btn-container">
