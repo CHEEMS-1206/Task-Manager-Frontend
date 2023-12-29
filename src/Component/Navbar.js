@@ -7,7 +7,7 @@ import "toastr/build/toastr.min.css";
 
 import "./componentStyle.css";
 
-function Navbar({ onLogout }) {
+function Navbar({ rerenderApp }) {
   const [isLoggedIn, setIsLoggedIn] = useState(
     localStorage.getItem("token") ? true : false
   );
@@ -17,12 +17,12 @@ function Navbar({ onLogout }) {
     hideDuration: 300,
     timeOut: 3000,
   };
-  
-  const navigationHandler = () =>{
-    if(!isLoggedIn){
-      setTimeout(() => toastr.warning("Login to access this link."),300)
+
+  const navigationHandler = () => {
+    if (!isLoggedIn) {
+      setTimeout(() => toastr.warning("Login to access this link."), 300);
     }
-  }
+  };
 
   return (
     <div className="navbar">
@@ -59,7 +59,7 @@ function Navbar({ onLogout }) {
                   () => toastr.success("User Logged Out successfully."),
                   300
                 );
-                onLogout();
+                rerenderApp();
               }}
             >
               Logout

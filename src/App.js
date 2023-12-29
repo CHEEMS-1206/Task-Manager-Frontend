@@ -12,14 +12,14 @@ import TasksAnalytics from "./Pages/TaskAnalytics.js";
 function AppWrapper() {
   const [key, setKey] = useState(0); // State to control the key of App component
 
-  const handleLogin = () => {
+  const rerenderApp = () => {
     setKey((prevKey) => prevKey + 1); // Increment key to trigger a re-render
   };
 
-  return <App key={key} handleLogin={handleLogin} />;
+  return <App key={key} rerenderApp={rerenderApp} />;
 }
 
-function App({ handleLogin }) {
+function App({ rerenderApp }) {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
 
   useEffect(() => {
@@ -31,21 +31,24 @@ function App({ handleLogin }) {
     <BrowserRouter>
       {isLoggedIn ? (
         <Routes>
-          <Route path="/" element={<Home onLogout={handleLogin} isLoggedIn={isLoggedIn} />} />
+          <Route
+            path="/"
+            element={<Home rerenderApp={rerenderApp} isLoggedIn={isLoggedIn} />}
+          />
           <Route path="/logout" element={<div>LOGOUT</div>} />
           <Route path="/login" element={<Navigate to="/" />} />
           <Route
             path="/my-tasks"
-            element={<AllTasks onLogout={handleLogin} />}
+            element={<AllTasks rerenderApp={rerenderApp} />}
           />
           <Route
             path="/add-new-task"
-            element={<AddNewTask onLogout={handleLogin} />}
+            element={<AddNewTask rerenderApp={rerenderApp} />}
           />
           <Route path="/update-task/:taskId" element={<UpdateTask />} />
           <Route
             path="/my-tasks-analytics"
-            element={<TasksAnalytics onLogout={handleLogin} />}
+            element={<TasksAnalytics rerenderApp={rerenderApp} />}
           />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
@@ -53,7 +56,12 @@ function App({ handleLogin }) {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login onLogin={handleLogin} setIsLoggedIn={setIsLoggedIn} />} />
+          <Route
+            path="/login"
+            element={
+              <Login rerenderApp={rerenderApp} setIsLoggedIn={setIsLoggedIn} />
+            }
+          />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       )}

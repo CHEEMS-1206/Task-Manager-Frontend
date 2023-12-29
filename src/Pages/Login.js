@@ -7,7 +7,7 @@ import toastr from "toastr";
 import "toastr/build/toastr.min.css";
 import LoaderSpinner from "../Component/LoaderSpineer.js";
 
-const Login = ({ onLogin, setIsLoggedIn }) => {
+const Login = ({ rerenderApp, setIsLoggedIn }) => {
   const moveTo = useNavigate();
 
   const [valErr, setValErr] = useState(false);
@@ -71,13 +71,13 @@ const Login = ({ onLogin, setIsLoggedIn }) => {
         // Save the token and user details in local storage for further use
         localStorage.setItem("token", token);
         localStorage.setItem("userName", userName);
-        onLogin();
+        rerenderApp();
         setTimeout(() => {
           localStorage.removeItem("token");
           localStorage.removeItem("userName");
           setIsLoggedIn(false);
           setTimeout(() => toastr.error("Your Session Time elapsed."), 300);
-          onLogin();
+          rerenderApp();
         }, 600000);
         moveTo("/");
       } else if (response.status === 401) {

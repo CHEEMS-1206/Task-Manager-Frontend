@@ -7,7 +7,7 @@ import LoaderSpinner from "../Component/LoaderSpineer.js";
 
 import Navbar from "../Component/Navbar.js";
 
-const AddNewTask = ({ onLogout }) => {
+const AddNewTask = ({ rerenderApp }) => {
   const Navigate = useNavigate();
   const [formData, setFormData] = useState({
     taskName: "",
@@ -82,12 +82,12 @@ const AddNewTask = ({ onLogout }) => {
 
   return isLoading ? (
     <div>
-      <Navbar onLogout={onLogout} />
+      <Navbar rerenderApp={rerenderApp} />
       <LoaderSpinner />
     </div>
   ) : (
     <div className="add-tasks-page">
-      <Navbar onLogout={onLogout} />
+      <Navbar rerenderApp={rerenderApp} />
       <h1>Add New Task</h1>
       <div className="add-task-container">
         <form className="task-form" onSubmit={handleSubmit}>

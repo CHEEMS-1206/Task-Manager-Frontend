@@ -7,7 +7,7 @@ import toastr from "toastr";
 import "toastr/build/toastr.min.css";
 import LoaderSpinner from "../Component/LoaderSpineer.js";
 
-const AllTasks = ({ onLogout }) => {
+const AllTasks = ({ rerenderApp }) => {
   const [tasks, setTasks] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
@@ -66,7 +66,7 @@ const AllTasks = ({ onLogout }) => {
 
   return (
     <div className="all-tasks-page">
-      <Navbar onLogout={onLogout} />
+      <Navbar rerenderApp={rerenderApp} />
       {isLoading ? (
         <div className="all-tasks-holder">
           <LoaderSpinner />

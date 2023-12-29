@@ -8,7 +8,7 @@ import Accordion from "../Component/Accordion.js";
 
 import { AgChartsReact } from "ag-charts-react";
 
-const TasksAnalytics = ({ onLogout }) => {
+const TasksAnalytics = ({ rerenderApp }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [numericalData, setNumericalData] = useState([]);
   const [tasksByWeek, setTaksByWeek] = useState([]);
@@ -130,9 +130,9 @@ const TasksAnalytics = ({ onLogout }) => {
     {
       title: "Numerical Comparision",
       content:
-        (numericalData[0] === 0 &&
-          numericalData[1] === 0 &&
-          numericalData[2] === 0) ? (
+        numericalData[0] === 0 &&
+        numericalData[1] === 0 &&
+        numericalData[2] === 0 ? (
           "You Don't have enough tasks to show analytics."
         ) : (
           <AgChartsReact
@@ -210,7 +210,7 @@ const TasksAnalytics = ({ onLogout }) => {
 
   return (
     <div className="task-analytics-page">
-      <Navbar onLogout={onLogout} />
+      <Navbar rerenderApp={rerenderApp} />
       {isLoading ? (
         <div className="all-charts-holder">
           <LoaderSpinner />

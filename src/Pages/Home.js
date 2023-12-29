@@ -5,10 +5,10 @@ import "animate.css";
 // imported components
 import Navbar from "../Component/Navbar.js";
 
-function Home({ onLogout, isLoggedIn }) {
+function Home({ rerenderApp, isLoggedIn }) {
   return (
     <div className="home-container">
-      <Navbar onLogout={onLogout}/>
+      <Navbar rerenderApp={rerenderApp} />
       <div className="header-container">
         <h1 className="animate__animated animate__backInLeft animate__slow">
           TaskMaster
