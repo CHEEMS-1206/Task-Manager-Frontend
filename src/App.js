@@ -7,6 +7,7 @@ import Login from "./Pages/Login.js";
 import AllTasks from "./Pages/AllTasks.js";
 import AddNewTask from "./Pages/AddNewTask.js";
 import UpdateTask from "./Pages/UpdateTask.js";
+import TasksAnalytics from "./Pages/TaskAnalytics.js";
 
 function AppWrapper() {
   const [key, setKey] = useState(0); // State to control the key of App component
@@ -44,7 +45,7 @@ function App({ handleLogin }) {
           <Route path="/update-task/:taskId" element={<UpdateTask />} />
           <Route
             path="/my-tasks-analytics"
-            element={<div>My tasks analytics</div>}
+            element={<TasksAnalytics onLogout={handleLogin} />}
           />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
