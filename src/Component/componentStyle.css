@@ -118,7 +118,7 @@
   font-size: 18px;
 }
 .accordion-content-holder{
-  height: max-content;
+  height: 500px;
   padding: 30px;
   display: flex;
   background-color: var(--primarySecColor);

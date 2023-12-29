@@ -268,7 +268,7 @@
   );
   height: calc(100vh);
 }
-.add-tasks-page h1{
+.add-tasks-page h1, .all-charts-holder-header{
   color: var(--primaryTextColor);
   text-align: center;
   margin: 30px 0;
@@ -284,7 +284,6 @@
   margin: auto;
   flex-direction: column;
   gap: 15px;
-  /* margin-top: 20px; */
 }
 
 .task-form input {
@@ -361,4 +360,19 @@ select {
   color: var(--primaryTextColor);
   text-align: center;
   margin: 30px 0;
+}
+
+/* // analytics page //  */
+.task-analytics-page{
+  background-color: var(--primarySecColor);
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100%;
+  overflow: auto;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+.quarterChart{
+  height: max-content;
 }
