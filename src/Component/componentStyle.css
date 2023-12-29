@@ -90,3 +90,38 @@
   margin-left: 12px;
   cursor: pointer;
 }
+
+/* // accordion style //  */
+.accordion{
+  height: max-content;
+  width: 100%;
+  padding: 20px;
+  margin: auto;
+  background-color: var(--primarySecColor);
+  border-radius: 10px;
+}
+.accordion-item{
+  padding: 0px;
+  color: var(--primaryTextColor);
+  background-color: var(--primaryPriColor);
+  border: 1px solid white;
+  border-radius: 6px;
+}
+.accordion-title-holder{
+  padding: 20px 40px;
+  border-bottom: 1px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.accordion-title-holder h1, .accordion-title-holder p{
+  font-size: 18px;
+}
+.accordion-content-holder{
+  height: max-content;
+  padding: 30px;
+  display: flex;
+  background-color: var(--primarySecColor);
+  justify-content: center;
+  align-items: center;
+}
