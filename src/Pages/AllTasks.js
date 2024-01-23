@@ -7,7 +7,7 @@ import toastr from "toastr";
 import "toastr/build/toastr.min.css";
 import LoaderSpinner from "../Component/LoaderSpineer.js";
 
-const AllTasks = ({ rerenderApp }) => {
+const AllTasks = (props) => {
   const [tasks, setTasks] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
@@ -26,7 +26,7 @@ const AllTasks = ({ rerenderApp }) => {
   const fetchTasks = async (page = 1, limit = 10) => {
     try {
       setIsLoading(true);
-      const token = localStorage.getItem("token");
+      const token = props.JWTtoken;
 
       const response = await fetch(
         `http://localhost:5001/api/all-tasks?page=${page}&limit=${limit}}}`,
@@ -66,7 +66,7 @@ const AllTasks = ({ rerenderApp }) => {
 
   return (
     <div className="all-tasks-page">
-      <Navbar rerenderApp={rerenderApp} />
+      <Navbar rerenderApp={props.rerenderApp} />
       {isLoading ? (
         <div className="all-tasks-holder">
           <LoaderSpinner />
