@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import toastr from "toastr";
@@ -7,11 +6,7 @@ import "toastr/build/toastr.min.css";
 
 import "./componentStyle.css";
 
-function Navbar({ rerenderApp }) {
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    localStorage.getItem("token") ? true : false
-  );
-
+function Navbar(props) {
   toastr.options = {
     position: "bottom-right",
     hideDuration: 300,
@@ -19,7 +14,7 @@ function Navbar({ rerenderApp }) {
   };
 
   const navigationHandler = () => {
-    if (!isLoggedIn) {
+    if (!props.isLoggedIn) {
       setTimeout(() => toastr.warning("Login to access this link."), 300);
     }
   };
@@ -47,19 +42,16 @@ function Navbar({ rerenderApp }) {
           </Link>
         </li>
       </ul>
-      {isLoggedIn ? (
+      {props.isLoggedIn ? (
         <ul>
           <li>
             <Link
               onClick={() => {
-                localStorage.removeItem("token");
-                localStorage.removeItem("userName");
-                setIsLoggedIn(false);
+                props.onLogout();
                 setTimeout(
                   () => toastr.success("User Logged Out successfully."),
                   300
                 );
-                rerenderApp();
               }}
             >
               Logout
