@@ -8,7 +8,7 @@ import Accordion from "../Component/Accordion.js";
 
 import { AgChartsReact } from "ag-charts-react";
 
-const TasksAnalytics = ({ rerenderApp }) => {
+const TasksAnalytics = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [numericalData, setNumericalData] = useState([]);
   const [tasksByWeek, setTaksByWeek] = useState([]);
@@ -26,7 +26,7 @@ const TasksAnalytics = ({ rerenderApp }) => {
   const fetchTasks = async () => {
     try {
       setIsLoading(true);
-      const token = localStorage.getItem("token");
+      const token = props.getTokenFromCookie("token");
 
       const response = await fetch(`http://localhost:5001/api/analytics`, {
         method: "GET",
@@ -38,7 +38,6 @@ const TasksAnalytics = ({ rerenderApp }) => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
 
         // getting counts for firts chart
         const statusCounts = data.reduce((acc, task) => {
@@ -51,7 +50,6 @@ const TasksAnalytics = ({ rerenderApp }) => {
           statusCounts["Missed"] || 0,
         ];
         setNumericalData(numericallData);
-        console.log(numericallData);
 
         // chart 2 data getting data for last 28 days in 4 quarters
         const currentDate = new Date();
@@ -110,7 +108,6 @@ const TasksAnalytics = ({ rerenderApp }) => {
           };
         });
 
-        console.log(quarterStats);
         setTaksByWeek(quarterStats);
 
         setTimeout(() => toastr.success("All tasks fetched."), 300);
@@ -210,7 +207,11 @@ const TasksAnalytics = ({ rerenderApp }) => {
 
   return (
     <div className="task-analytics-page">
-      <Navbar rerenderApp={rerenderApp} />
+      <Navbar
+        rerenderApp={props.rerenderApp}
+        isLoggedIn={props.isLoggedIn}
+        onLogout={props.onLogout}
+      />
       {isLoading ? (
         <div className="all-charts-holder">
           <LoaderSpinner />
