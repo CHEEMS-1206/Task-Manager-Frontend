@@ -69,18 +69,18 @@ const Login = (props) => {
         setTimeout(() => toastr.success(`User Logged in Successfully !`), 300);
 
         // Save the token in cookies
+        props.setIsLoggedIn(true)
         props.setTokenInCookie(token);
         props.rerenderApp();
 
         // auto logout after 10 mins
         setTimeout(() => {
-          console.log(Date.now());
-          console.log(props.isLoggedIn);
           if (props.isLoggedIn === true)
             setTimeout(() => toastr.error("Your Session Time elapsed."), 300);
-          props.rerenderApp();
           props.onLogout();
+          props.rerenderApp();
         }, 600000);
+
         moveTo("/");
       } else if (response.status === 401) {
         setTimeout(() => toastr.error("Failed to login !"), 300);
