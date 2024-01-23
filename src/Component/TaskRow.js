@@ -12,7 +12,7 @@ import "toastr/build/toastr.min.css";
 
 library.add(faFilePen, fas);
 
-const TaskRow = ({ task, afterDelete }) => {
+const TaskRow = ({ task, afterDelete, getTokenFromCookie }) => {
   const Navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const handleUpdate = () => {
@@ -28,7 +28,7 @@ const TaskRow = ({ task, afterDelete }) => {
   const handleDelete = async () => {
     try {
       setIsLoading(true)
-      const token = localStorage.getItem("token");
+      const token = getTokenFromCookie("token");
       const userRes = window.confirm(
         `You sure to to delete task : ${task.taskName} ?`
       );
