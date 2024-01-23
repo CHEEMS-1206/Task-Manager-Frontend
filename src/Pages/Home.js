@@ -5,10 +5,14 @@ import "animate.css";
 // imported components
 import Navbar from "../Component/Navbar.js";
 
-function Home({ rerenderApp, isLoggedIn }) {
+function Home(props) {
   return (
     <div className="home-container">
-      <Navbar rerenderApp={rerenderApp} />
+      <Navbar
+        rerenderApp={props.rerenderApp}
+        isLoggedIn={props.isLoggedIn}
+        onLogout={props.onLogout}
+      />
       <div className="header-container">
         <h1 className="animate__animated animate__backInLeft animate__slow">
           TaskMaster
@@ -18,7 +22,7 @@ function Home({ rerenderApp, isLoggedIn }) {
           Stay organized, boost productivity, and achieve your goals
           effortlessly with our intuitive and powerful task management platform.
         </p>
-        {isLoggedIn ? (
+        {props.isLoggedIn ? (
           <p
             className="animate__animated animate__backInLeft animate__slow"
             id="special-statement"
