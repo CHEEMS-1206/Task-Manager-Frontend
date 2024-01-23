@@ -7,13 +7,13 @@ import LoaderSpinner from "../Component/LoaderSpineer.js";
 
 import Navbar from "../Component/Navbar.js";
 
-const AddNewTask = ({ rerenderApp }) => {
+const AddNewTask = (props) => {
   const Navigate = useNavigate();
   const [formData, setFormData] = useState({
     taskName: "",
     taskDescription: "",
     taskDeadline: "",
-    token: localStorage.getItem("token"),
+    token: props.getTokenFromCookie("token"),
   });
 
   const [valErr, setValErr] = useState(false);
@@ -82,12 +82,26 @@ const AddNewTask = ({ rerenderApp }) => {
 
   return isLoading ? (
     <div>
-      <Navbar rerenderApp={rerenderApp} />
+      <Navbar
+        rerenderApp={props.rerenderApp}
+        isLoggedIn={props.isLoggedIn}
+        onLogout={props.onLogout}
+      />
       <LoaderSpinner />
     </div>
   ) : (
     <div className="add-tasks-page">
-      <Navbar rerenderApp={rerenderApp} />
+      <Navbar
+        rerenderApp={props.rerenderApp}
+        isLoggedIn={props.isLoggedIn}
+        setIsLoggedIn={props.setIsLoggedIn}
+        setTokenInCookie={props.setTokenInCookie}
+        getTokenFromCookie={props.getTokenFromCookie}
+        deleteTokenFromCookie={props.deleteTokenFromCookie}
+        validateToken={props.validateToken}
+        onLogout={props.onLogout}
+        handleUnethicalDataAccess={props.handleUnethicalDataAccess}
+      />
       <h1>Add New Task</h1>
       <div className="add-task-container">
         <form className="task-form" onSubmit={handleSubmit}>
