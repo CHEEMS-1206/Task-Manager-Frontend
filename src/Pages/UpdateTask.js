@@ -5,7 +5,7 @@ import toastr from "toastr";
 import "toastr/build/toastr.min.css";
 import LoaderSpinner from "../Component/LoaderSpineer.js";
 
-const UpdateTask = () => {
+const UpdateTask = (props) => {
   const Navigate = useNavigate();
   const params = useParams();
   const taskId = params.taskId;
@@ -37,7 +37,7 @@ const UpdateTask = () => {
     const fetchTask = async () => {
       try {
         setIsLoading(true);
-        const token = localStorage.getItem("token");
+        const token = props.getTokenFromCookie("token");
 
         const response = await fetch(
           `http://localhost:5001/api/task/${taskId}`,
@@ -92,7 +92,7 @@ const UpdateTask = () => {
       return;
     }
     try {
-      const token = localStorage.getItem("token");
+      const token = props.getTokenFromCookie("token");
 
       const response = await fetch(`http://localhost:5001/api/task/${taskId}`, {
         method: "PUT",
