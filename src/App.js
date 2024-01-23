@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { Route, Routes, BrowserRouter, Navigate } from "react-router-dom";
-import Register from "./Pages/Regsiter.js";
 
+import toastr from "toastr";
+import "toastr/build/toastr.min.css";
+
+import Register from "./Pages/Regsiter.js";
 import Home from "./Pages/Home.js";
 import Login from "./Pages/Login.js";
 import AllTasks from "./Pages/AllTasks.js";
@@ -28,6 +31,12 @@ function AppWrapper() {
 }
 
 function App(props) {
+  toastr.options = {
+    position: "bottom-right",
+    hideDuration: 300,
+    timeOut: 3000,
+  };
+
   const setTokenInCookie = (cookieName) => {
     // Setting Cookie
     const expirationDate = new Date(Date.now() + 10 * 60 * 1000); // disable after 10 mins
@@ -52,7 +61,13 @@ function App(props) {
     const expirationDate = new Date(Date.now());
     const expires = expirationDate.toUTCString();
     document.cookie = `token=${cookieName}; path=/; sameSite=Strict; Secure; expires=${expires}`;
-  }
+  };
+
+  const handleUnethicalDataAccess = (msg) => {
+    setTimeout(() => toastr.error(msg), 300);
+    setTimeout(() => toastr.error("Please Login again !"), 300);
+    onLogout();
+  };
 
   const validateToken = async () => {
     const token = getTokenFromCookie("token");
@@ -71,14 +86,16 @@ function App(props) {
           return true;
         } else if (response.status === 401) {
           // token expired login again
+          handleUnethicalDataAccess("Your session expired !");
           response.json().then((error) => {
-            console.log(error.message);
+            console.log(error.msg);
           });
           return false;
         } else if (response.status === 403) {
           // invalid token login again
+          handleUnethicalDataAccess("Invalid credentials !");
           response.json().then((error) => {
-            console.log(error.message);
+            console.log(error.msg);
           });
           return false;
         } else if (response.status === 500) {
@@ -101,8 +118,6 @@ function App(props) {
     props.rerenderApp();
   };
 
-  const handleUnethicalDataAccess = () => {};
-
   const tokenInCookie = getTokenFromCookie("token");
   if (tokenInCookie && tokenInCookie !== "") {
     validateToken(tokenInCookie);
@@ -119,6 +134,7 @@ function App(props) {
                 rerenderApp={props.rerenderApp}
                 isLoggedIn={props.isLoggedIn}
                 onLogout={onLogout}
+                validateToken={validateToken}
               />
             }
           />
@@ -130,6 +146,7 @@ function App(props) {
                 isLoggedIn={props.isLoggedIn}
                 getTokenFromCookie={getTokenFromCookie}
                 onLogout={onLogout}
+                validateToken={validateToken}
               />
             }
           />
@@ -146,11 +163,7 @@ function App(props) {
           />
           <Route
             path="/update-task/:taskId"
-            element={
-              <UpdateTask
-                getTokenFromCookie={getTokenFromCookie}
-              />
-            }
+            element={<UpdateTask getTokenFromCookie={getTokenFromCookie} />}
           />
           <Route
             path="/my-tasks-analytics"
