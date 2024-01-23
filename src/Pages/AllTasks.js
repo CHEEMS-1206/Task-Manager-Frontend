@@ -24,35 +24,39 @@ const AllTasks = (props) => {
   };
 
   const fetchTasks = async (page = 1, limit = 10) => {
-    try {
-      setIsLoading(true);
-      const token = props.getTokenFromCookie('token');
+    const token = props.getTokenFromCookie("token");
 
-      const response = await fetch(
-        `http://localhost:5001/api/all-tasks?page=${page}&limit=${limit}}}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
+    if ( ! await props.validateToken(token)) {
+      return;
+    } else {
+      try {
+        setIsLoading(true);
+        const response = await fetch(
+          `http://localhost:5001/api/all-tasks?page=${page}&limit=${limit}}}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          setMaxPage(data.totalPages);
+          setTasks(data.tasks);
+          setTimeout(() => toastr.success("All tasks fetched."), 300);
+        } else {
+          console.log("Failed To fetch tasks.");
+          setTimeout(() => toastr.error("Couldn't fetch tasks."), 300);
         }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        setMaxPage(data.totalPages);
-        setTasks(data.tasks);
-        setTimeout(() => toastr.success("All tasks fetched."), 300);
-      } else {
-        console.log("Failed To fetch tasks.");
+      } catch (error) {
         setTimeout(() => toastr.error("Couldn't fetch tasks."), 300);
+        console.log("Failed To fetch tasks.");
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      setTimeout(() => toastr.error("Couldn't fetch tasks."), 300);
-      console.log("Failed To fetch tasks.");
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -89,6 +93,7 @@ const AllTasks = (props) => {
                     key={task._id}
                     task={task}
                     getTokenFromCookie={props.getTokenFromCookie}
+                    validateToken={props.validateToken}
                   />
                 ))}
               </div>

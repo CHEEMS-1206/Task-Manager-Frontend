@@ -163,12 +163,18 @@ function App(props) {
                 isLoggedIn={props.isLoggedIn}
                 getTokenFromCookie={getTokenFromCookie}
                 onLogout={onLogout}
+                validateToken={validateToken}
               />
             }
           />
           <Route
             path="/update-task/:taskId"
-            element={<UpdateTask getTokenFromCookie={getTokenFromCookie} />}
+            element={
+              <UpdateTask
+                getTokenFromCookie={getTokenFromCookie}
+                validateToken={validateToken}
+              />
+            }
           />
           <Route
             path="/my-tasks-analytics"
@@ -178,6 +184,7 @@ function App(props) {
                 isLoggedIn={props.isLoggedIn}
                 getTokenFromCookie={getTokenFromCookie}
                 onLogout={onLogout}
+                validateToken={validateToken}
               />
             }
           />

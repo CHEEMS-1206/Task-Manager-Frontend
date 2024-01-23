@@ -35,36 +35,41 @@ const UpdateTask = (props) => {
 
   useEffect(() => {
     const fetchTask = async () => {
-      try {
-        setIsLoading(true);
-        const token = props.getTokenFromCookie("token");
+      const token = props.getTokenFromCookie("token");
 
-        const response = await fetch(
-          `http://localhost:5001/api/task/${taskId}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
+      if (!(await props.validateToken(token))) {
+        return;
+      } else {
+        try {
+          setIsLoading(true);
+
+          const response = await fetch(
+            `http://localhost:5001/api/task/${taskId}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          if (response.ok) {
+            const taskData = await response.json();
+            const parsedDate = new Date(taskData.taskDeadline);
+            const year = parsedDate.getFullYear();
+            const month = String(parsedDate.getMonth() + 1).padStart(2, "0");
+            const day = String(parsedDate.getDate()).padStart(2, "0");
+
+            taskData.taskDeadline = `${year}-${month}-${day}`;
+            setTask(taskData);
+          } else {
+            console.error("Failed to fetch task");
           }
-        );
-        if (response.ok) {
-          const taskData = await response.json();
-          const parsedDate = new Date(taskData.taskDeadline);
-          const year = parsedDate.getFullYear();
-          const month = String(parsedDate.getMonth() + 1).padStart(2, "0");
-          const day = String(parsedDate.getDate()).padStart(2, "0");
-
-          taskData.taskDeadline = `${year}-${month}-${day}`;
-          setTask(taskData);
-        } else {
-          console.error("Failed to fetch task");
+        } catch (error) {
+          console.error("Error fetching task:", error);
+        } finally {
+          setIsLoading(false);
         }
-      } catch (error) {
-        console.error("Error fetching task:", error);
-      } finally {
-        setIsLoading(false);
       }
     };
 
@@ -91,32 +96,40 @@ const UpdateTask = (props) => {
       errHandler("Chose a specific deadline date.");
       return;
     }
-    try {
-      const token = props.getTokenFromCookie("token");
 
-      const response = await fetch(`http://localhost:5001/api/task/${taskId}`, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(task),
-      });
-      if (response.ok) {
-        setTimeout(() => toastr.success("Task updated successfully !"), 300);
-        Navigate("/my-tasks");
-      } else if (response.status === 303) {
-        setTimeout(() => toastr.warning("Can't update default task."), 300);
-        Navigate("/my-tasks");
-      } else {
+    const token = props.getTokenFromCookie("token");
+
+    if (!(await props.validateToken(token))) {
+      return;
+    } else {
+      try {
+        const response = await fetch(
+          `http://localhost:5001/api/task/${taskId}`,
+          {
+            method: "PUT",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(task),
+          }
+        );
+        if (response.ok) {
+          setTimeout(() => toastr.success("Task updated successfully !"), 300);
+          Navigate("/my-tasks");
+        } else if (response.status === 303) {
+          setTimeout(() => toastr.warning("Can't update default task."), 300);
+          Navigate("/my-tasks");
+        } else {
+          setTimeout(() => toastr.error("Failed to update task."), 300);
+          response.json().then((error) => {
+            errHandler(error.msg);
+          });
+        }
+      } catch (error) {
         setTimeout(() => toastr.error("Failed to update task."), 300);
-        response.json().then((error) => {
-          errHandler(error.msg);
-        });
+        errHandler("Error updating task.");
       }
-    } catch (error) {
-      setTimeout(() => toastr.error("Failed to update task."), 300);
-      errHandler("Error updating task.");
     }
   };
 

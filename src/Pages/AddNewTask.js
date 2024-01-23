@@ -54,29 +54,34 @@ const AddNewTask = (props) => {
       errHandler("Chose a specific deadline date.");
       return;
     }
-    try {
-      setIsLoading(true);
-      const response = await fetch("http://localhost:5001/api/task", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      if (response.ok) {
-        setTimeout(() => toastr.success("Task added successfully !"), 300);
-        Navigate("/my-tasks");
-      } else {
-        setTimeout(() => toastr.error("Failed to add task !"), 300);
-        response.json().then((error) => {
-          errHandler(error.msg);
+    const TOKEN = props.getTokenFromCookie("token");
+    if (!(await props.validateToken(TOKEN))) {
+      return;
+    } else {
+      try {
+        setIsLoading(true);
+        const response = await fetch("http://localhost:5001/api/task", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
         });
+        if (response.ok) {
+          setTimeout(() => toastr.success("Task added successfully !"), 300);
+          Navigate("/my-tasks");
+        } else {
+          setTimeout(() => toastr.error("Failed to add task !"), 300);
+          response.json().then((error) => {
+            errHandler(error.msg);
+          });
+        }
+      } catch (error) {
+        setTimeout(() => toastr.error("Failed to add task !"), 300);
+        errHandler("Error adding task.");
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      setTimeout(() => toastr.error("Failed to add task !"), 300);
-      errHandler("Error adding task.");
-    } finally {
-      setIsLoading(false);
     }
   };
 

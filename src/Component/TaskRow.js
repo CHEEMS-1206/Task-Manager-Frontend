@@ -12,7 +12,7 @@ import "toastr/build/toastr.min.css";
 
 library.add(faFilePen, fas);
 
-const TaskRow = ({ task, afterDelete, getTokenFromCookie }) => {
+const TaskRow = ({ task, afterDelete, getTokenFromCookie, validateToken }) => {
   const Navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const handleUpdate = () => {
@@ -32,7 +32,7 @@ const TaskRow = ({ task, afterDelete, getTokenFromCookie }) => {
       const userRes = window.confirm(
         `You sure to to delete task : ${task.taskName} ?`
       );
-      if (userRes) {
+      if (userRes && (await validateToken(token))) {
         const response = await fetch(
           `http://localhost:5001/api/task/${task.taskId}`,
           {
@@ -47,10 +47,15 @@ const TaskRow = ({ task, afterDelete, getTokenFromCookie }) => {
           setTimeout(() => toastr.success("Task deleted successfully."), 300);
           afterDelete();
         } else if (response.status === 303) {
-          setTimeout(() => toastr.warning("Default Tasks can't be deleted."),300);
+          setTimeout(
+            () => toastr.warning("Default Tasks can't be deleted."),
+            300
+          );
         } else {
-          setTimeout(() => toastr.error("Failed to delete task"),300);
+          setTimeout(() => toastr.error("Failed to delete task"), 300);
         }
+      } else{
+        return
       }
     } catch (error) {
       setTimeout(() => toastr.error("Failed to delete task"), 300);

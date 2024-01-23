@@ -24,102 +24,106 @@ const TasksAnalytics = (props) => {
   };
 
   const fetchTasks = async () => {
-    try {
-      setIsLoading(true);
-      const token = props.getTokenFromCookie("token");
+    const token = props.getTokenFromCookie("token");
 
-      const response = await fetch(`http://localhost:5001/api/analytics`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+    if (!(await props.validateToken(token))) {
+      return;
+    } else {
+      try {
+        setIsLoading(true);
+        const response = await fetch(`http://localhost:5001/api/analytics`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
 
-      if (response.ok) {
-        const data = await response.json();
+        if (response.ok) {
+          const data = await response.json();
 
-        // getting counts for firts chart
-        const statusCounts = data.reduce((acc, task) => {
-          acc[task.taskStatus] = (acc[task.taskStatus] || 0) + 1;
-          return acc;
-        }, {});
-        const numericallData = [
-          statusCounts["Pending"] || 0,
-          statusCounts["Completed"] || 0,
-          statusCounts["Missed"] || 0,
-        ];
-        setNumericalData(numericallData);
+          // getting counts for firts chart
+          const statusCounts = data.reduce((acc, task) => {
+            acc[task.taskStatus] = (acc[task.taskStatus] || 0) + 1;
+            return acc;
+          }, {});
+          const numericallData = [
+            statusCounts["Pending"] || 0,
+            statusCounts["Completed"] || 0,
+            statusCounts["Missed"] || 0,
+          ];
+          setNumericalData(numericallData);
 
-        // chart 2 data getting data for last 28 days in 4 quarters
-        const currentDate = new Date();
-        const last28Days = new Date(
-          currentDate.getTime() - 28 * 24 * 60 * 60 * 1000
-        ); // Get date 28 days ago
+          // chart 2 data getting data for last 28 days in 4 quarters
+          const currentDate = new Date();
+          const last28Days = new Date(
+            currentDate.getTime() - 28 * 24 * 60 * 60 * 1000
+          ); // Get date 28 days ago
 
-        // Filter tasks within the last 28 days
-        const filteredTasks = data.filter((task) => {
-          const taskDate = new Date(task.taskCreatedAt);
-          return (
-            taskDate >= last28Days &&
-            taskDate <= currentDate &&
-            task.taskStatus !== "Default"
+          // Filter tasks within the last 28 days
+          const filteredTasks = data.filter((task) => {
+            const taskDate = new Date(task.taskCreatedAt);
+            return (
+              taskDate >= last28Days &&
+              taskDate <= currentDate &&
+              task.taskStatus !== "Default"
+            );
+          });
+
+          // Sort filtered tasks by taskCreatedAt in ascending order
+          filteredTasks.sort(
+            (a, b) => new Date(a.taskCreatedAt) - new Date(b.taskCreatedAt)
           );
-        });
 
-        // Sort filtered tasks by taskCreatedAt in ascending order
-        filteredTasks.sort(
-          (a, b) => new Date(a.taskCreatedAt) - new Date(b.taskCreatedAt)
-        );
+          // Divide tasks into four quarters (last 7 days each)
+          const quarters = [[], [], [], []];
+          const quarterSize = 7;
 
-        // Divide tasks into four quarters (last 7 days each)
-        const quarters = [[], [], [], []];
-        const quarterSize = 7;
+          filteredTasks.forEach((task) => {
+            const taskDate = new Date(task.taskCreatedAt);
+            const daysDiff = Math.floor(
+              (currentDate - taskDate) / (24 * 60 * 60 * 1000)
+            );
+            const quarterIndex = Math.floor(daysDiff / quarterSize);
 
-        filteredTasks.forEach((task) => {
-          const taskDate = new Date(task.taskCreatedAt);
-          const daysDiff = Math.floor(
-            (currentDate - taskDate) / (24 * 60 * 60 * 1000)
-          );
-          const quarterIndex = Math.floor(daysDiff / quarterSize);
+            quarters[quarterIndex].push(task);
+          });
 
-          quarters[quarterIndex].push(task);
-        });
+          // Calculate counts for each type of task in each quarter
+          const quarterStats = quarters.map((quarter, index) => {
+            const totalTasks = quarter.length;
+            const pendingTasks = quarter.filter(
+              (task) => task.taskStatus === "Pending"
+            ).length;
+            const completedTasks = quarter.filter(
+              (task) => task.taskStatus === "Completed"
+            ).length;
+            const missedTasks = quarter.filter(
+              (task) => task.taskStatus === "Missed"
+            ).length;
 
-        // Calculate counts for each type of task in each quarter
-        const quarterStats = quarters.map((quarter, index) => {
-          const totalTasks = quarter.length;
-          const pendingTasks = quarter.filter(
-            (task) => task.taskStatus === "Pending"
-          ).length;
-          const completedTasks = quarter.filter(
-            (task) => task.taskStatus === "Completed"
-          ).length;
-          const missedTasks = quarter.filter(
-            (task) => task.taskStatus === "Missed"
-          ).length;
+            return {
+              quarter: `Q${index + 1}`,
+              totalTasks: totalTasks,
+              pendingTasks,
+              completedTasks,
+              missedTasks,
+            };
+          });
 
-          return {
-            quarter: `Q${index + 1}`,
-            totalTasks: totalTasks,
-            pendingTasks,
-            completedTasks,
-            missedTasks,
-          };
-        });
+          setTaksByWeek(quarterStats);
 
-        setTaksByWeek(quarterStats);
-
-        setTimeout(() => toastr.success("All tasks fetched."), 300);
-      } else {
-        console.log("Failed To fetch tasks. 1");
-        setTimeout(() => toastr.error("Couldn't fetch tasks."), 300);
+          setTimeout(() => toastr.success("All tasks fetched."), 300);
+        } else {
+          console.log("Failed To fetch tasks. 1");
+          setTimeout(() => toastr.error("Couldn't fetch tasks."), 300);
+        }
+      } catch (error) {
+        setTimeout(() => toastr.error("An error occured."), 300);
+        console.log(error.message);
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      setTimeout(() => toastr.error("An error occured."), 300);
-      console.log(error.message);
-    } finally {
-      setIsLoading(false);
     }
   };
 
