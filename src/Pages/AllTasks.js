@@ -26,7 +26,7 @@ const AllTasks = (props) => {
   const fetchTasks = async (page = 1, limit = 10) => {
     try {
       setIsLoading(true);
-      const token = props.JWTtoken;
+      const token = props.getTokenFromCookie('token');
 
       const response = await fetch(
         `http://localhost:5001/api/all-tasks?page=${page}&limit=${limit}}}`,
@@ -66,7 +66,11 @@ const AllTasks = (props) => {
 
   return (
     <div className="all-tasks-page">
-      <Navbar rerenderApp={props.rerenderApp} />
+      <Navbar
+        rerenderApp={props.rerenderApp}
+        isLoggedIn={props.isLoggedIn}
+        onLogout={props.onLogout}
+      />
       {isLoading ? (
         <div className="all-tasks-holder">
           <LoaderSpinner />
@@ -84,6 +88,7 @@ const AllTasks = (props) => {
                     afterDelete={fetchTasks}
                     key={task._id}
                     task={task}
+                    getTokenFromCookie={props.getTokenFromCookie}
                   />
                 ))}
               </div>
