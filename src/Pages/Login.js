@@ -7,7 +7,7 @@ import toastr from "toastr";
 import "toastr/build/toastr.min.css";
 import LoaderSpinner from "../Component/LoaderSpineer.js";
 
-const Login = ({ rerenderApp, setIsLoggedIn }) => {
+const Login = (props) => {
   const moveTo = useNavigate();
 
   const [valErr, setValErr] = useState(false);
@@ -68,16 +68,18 @@ const Login = ({ rerenderApp, setIsLoggedIn }) => {
         const { token } = await response.json();
         setTimeout(() => toastr.success(`User Logged in Successfully !`), 300);
 
-        // Save the token and user details in local storage for further use
-        localStorage.setItem("token", token);
-        localStorage.setItem("userName", userName);
-        rerenderApp();
+        // Save the token in cookies
+        props.setTokenInCookie(token);
+        props.rerenderApp();
+
+        // auto logout after 10 mins
         setTimeout(() => {
-          localStorage.removeItem("token");
-          localStorage.removeItem("userName");
-          setIsLoggedIn(false);
-          setTimeout(() => toastr.error("Your Session Time elapsed."), 300);
-          rerenderApp();
+          console.log(Date.now());
+          console.log(props.isLoggedIn);
+          if (props.isLoggedIn === true)
+            setTimeout(() => toastr.error("Your Session Time elapsed."), 300);
+          props.rerenderApp();
+          props.onLogout();
         }, 600000);
         moveTo("/");
       } else if (response.status === 401) {
@@ -93,7 +95,7 @@ const Login = ({ rerenderApp, setIsLoggedIn }) => {
       }
     } catch (error) {
       setTimeout(() => toastr.error("Failed to login !"), 300);
-      errHandler(error);
+      errHandler(error.message);
     } finally {
       setIsLoading(false);
     }
