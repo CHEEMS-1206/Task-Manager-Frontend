@@ -94,13 +94,7 @@ const AddNewTask = (props) => {
       <Navbar
         rerenderApp={props.rerenderApp}
         isLoggedIn={props.isLoggedIn}
-        setIsLoggedIn={props.setIsLoggedIn}
-        setTokenInCookie={props.setTokenInCookie}
-        getTokenFromCookie={props.getTokenFromCookie}
-        deleteTokenFromCookie={props.deleteTokenFromCookie}
-        validateToken={props.validateToken}
         onLogout={props.onLogout}
-        handleUnethicalDataAccess={props.handleUnethicalDataAccess}
       />
       <h1>Add New Task</h1>
       <div className="add-task-container">
