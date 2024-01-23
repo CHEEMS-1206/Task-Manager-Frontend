@@ -69,9 +69,13 @@ function App(props) {
     onLogout();
   };
 
-  const validateToken = async () => {
-    const token = getTokenFromCookie("token");
-    if (token !== "") {
+  const validateToken = async (tokenInCookie) => {
+    const token = tokenInCookie;
+    if (token === null || token === undefined) {
+      handleUnethicalDataAccess("Invalid Credentials !");
+      return false;
+    }
+    if (token && token !== "") {
       try {
         const response = await fetch("http://localhost:5001/api/verify-token", {
           method: "GET",
@@ -109,6 +113,8 @@ function App(props) {
         // clientside error
         console.log(error.message);
       }
+    } else{
+      return false
     }
   };
 
@@ -134,7 +140,6 @@ function App(props) {
                 rerenderApp={props.rerenderApp}
                 isLoggedIn={props.isLoggedIn}
                 onLogout={onLogout}
-                validateToken={validateToken}
               />
             }
           />
